@@ -1413,7 +1413,7 @@ public class ProjectSearchPage extends BaseTest {
             if (checkbox.isDisplayed() && checkbox.isEnabled()) {
                 checkbox.click();
                 Thread.sleep(1000); // Give the map time to reflect changes
-                System.out.println("✅ Test Passed: Heatmap Checkbox is selected.");
+                System.out.println("✅ Test Passed: Heatmap Checkbox is Successfully selected.");
             } else {
                 System.out.println("❌ Test Failed: Heatmap Checkbox is not interactable.");
                 Assert.fail("Heatmap Checkbox is not interactable.");
