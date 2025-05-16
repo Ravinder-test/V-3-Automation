@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset='utf-8'>
+  <title>TestNG reports</title>
+
+    <link type="text/css" href="testng-reports1.css" rel="stylesheet" id="ultra" />
+    <link type="text/css" href="testng-reports.css" rel="stylesheet" id="retro" disabled="false"/>
+    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="testng-reports.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      var suiteTableInitFunctions = new Array();
+      var suiteTableData = new Array();
+    </script>
+    <!--
+      <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+     -->
+  </head>
+
+  <body>    <div class="top-banner-root">
+      <span class="top-banner-title-font">Test results</span>
+      <button id="button" class="button">Switch Retro Theme</button> <!-- button -->
+      <br/>
+      <span class="top-banner-font-1">1 suite, 12 failed tests</span>
+    </div> <!-- top-banner-root -->
+    <div class="navigator-root">
+      <div class="navigator-suite-header">
+        <span>All suites</span>
+        <a href="#" title="Collapse/expand all the suites" class="collapse-all-link">
+          <img src="collapseall.gif" class="collapse-all-icon">
+          </img> <!-- collapse-all-icon -->
+        </a> <!-- collapse-all-link -->
+      </div> <!-- navigator-suite-header -->
+      <div class="suite">
+        <div class="rounded-window">
+          <div class="suite-header light-rounded-window-top">
+            <a href="#" panel-name="suite-PropertyMonitorSuite" class="navigator-link">
+              <span class="suite-name border-failed">PropertyMonitorSuite</span>
+            </a> <!-- navigator-link -->
+          </div> <!-- suite-header light-rounded-window-top -->
+          <div class="navigator-suite-content">
+            <div class="suite-section-title">
+              <span>Info</span>
+            </div> <!-- suite-section-title -->
+            <div class="suite-section-content">
+              <ul>
+                <li>
+                  <a href="#" panel-name="test-xml-PropertyMonitorSuite" class="navigator-link ">
+                    <span>C:\Users\admin\eclipse-workspace\PMIQ-Automation\src\test\java\testng.xml</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="testlist-PropertyMonitorSuite" class="navigator-link ">
+                    <span class="test-stats">1 test</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="group-PropertyMonitorSuite" class="navigator-link ">
+                    <span>0 groups</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="times-PropertyMonitorSuite" class="navigator-link ">
+                    <span>Times</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="reporter-PropertyMonitorSuite" class="navigator-link ">
+                    <span>Reporter output</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="ignored-methods-PropertyMonitorSuite" class="navigator-link ">
+                    <span>Ignored methods</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" panel-name="chronological-PropertyMonitorSuite" class="navigator-link ">
+                    <span>Chronological view</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+              </ul>
+            </div> <!-- suite-section-content -->
+            <div class="result-section">
+              <div class="suite-section-title">
+                <span>Results</span>
+              </div> <!-- suite-section-title -->
+              <div class="suite-section-content">
+                <ul>
+                  <li>
+                    <span class="method-stats">43 methods, 12 failed,   31 passed</span>
+                  </li>
+                  <li>
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-PropertyMonitorSuite" class="hide-methods failed suite-PropertyMonitorSuite"> (hide)</a> <!-- hide-methods failed suite-PropertyMonitorSuite -->
+                      <a href="#" panel-name="suite-PropertyMonitorSuite" class="show-methods failed suite-PropertyMonitorSuite"> (show)</a> <!-- show-methods failed suite-PropertyMonitorSuite -->
+                    </span>
+                    <div class="method-list-content failed suite-PropertyMonitorSuite">
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickFurnishingFilter">clickFurnishingFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickKitchenFilter">clickKitchenFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickSelectDld">clickSelectDld</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickSelectSalesStartDate">clickSelectSalesStartDate</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickUnSelectCalendar">clickUnSelectCalendar</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="inputBuiltupValue">inputBuiltupValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="inputPlotAreaValue">inputPlotAreaValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="resetDownPaymentValue">resetDownPaymentValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="selectConstructionStatus">selectConstructionStatus</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectDld">unSelectDld</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectKitchenFilter">unSelectKitchenFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectPaymentField">unSelectPaymentField</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content failed suite-PropertyMonitorSuite -->
+                  </li>
+                  <li>
+                    <span class="method-list-title passed">Passed methods</span>
+                    <span class="show-or-hide-methods passed">
+                      <a href="#" panel-name="suite-PropertyMonitorSuite" class="hide-methods passed suite-PropertyMonitorSuite"> (hide)</a> <!-- hide-methods passed suite-PropertyMonitorSuite -->
+                      <a href="#" panel-name="suite-PropertyMonitorSuite" class="show-methods passed suite-PropertyMonitorSuite"> (show)</a> <!-- show-methods passed suite-PropertyMonitorSuite -->
+                    </span>
+                    <div class="method-list-content passed suite-PropertyMonitorSuite">
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickAdvanceFilter">clickAdvanceFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickApplyButton">clickApplyButton</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickPaymentField">clickPaymentField</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickResetFilter">clickResetFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickSearchDeveloper">clickSearchDeveloper</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickSelectCalendar">clickSelectCalendar</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="clickUnSelectSalesStartDate">clickUnSelectSalesStartDate</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="heightClassFilter">heightClassFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="inputBrokerCommissionValue">inputBrokerCommissionValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="inputDownPaymentValue">inputDownPaymentValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="inputMinMaxCompletionPercentage">inputMinMaxCompletionPercentage</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="resetBrokerCommissionValue">resetBrokerCommissionValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="resetBuiltupValue">resetBuiltupValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="resetMinMaxCompletionPercentage">resetMinMaxCompletionPercentage</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="resetPlotAreaValue">resetPlotAreaValue</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="selectBedroomLabel">selectBedroomLabel</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="selectBrandFilter">selectBrandFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="selectMultipleAmenities">selectMultipleAmenities</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="selectUpcomingSaleStatus">selectUpcomingSaleStatus</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="testClearLocationUpdatesProjectCount">testClearLocationUpdatesProjectCount</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="testSearchLocationUpdatesProjectCount">testSearchLocationUpdatesProjectCount</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="testSelectApartmentUnitType">testSelectApartmentUnitType</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="testUnselectApartmentUnitType">testUnselectApartmentUnitType</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.LoginPage" class="method navigator-link" hash-for-method="testValidLogin">testValidLogin</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectBedroomLabel">unSelectBedroomLabel</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectBrandFilter">unSelectBrandFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectFurnishingFilter">unSelectFurnishingFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="unSelectheightClassFilter">unSelectheightClassFilter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="uncheckUpcomingSaleStatus">uncheckUpcomingSaleStatus</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.ProjectSearchPage" class="method navigator-link" hash-for-method="verifyHeatMapSelected">verifyHeatMapSelected</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-PropertyMonitorSuite" title="com.propertymonitor.pages.LoginPage" class="method navigator-link" hash-for-method="verifyProjectSearchPageURL">verifyProjectSearchPageURL</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content passed suite-PropertyMonitorSuite -->
+                  </li>
+                </ul>
+              </div> <!-- suite-section-content -->
+            </div> <!-- result-section -->
+          </div> <!-- navigator-suite-content -->
+        </div> <!-- rounded-window -->
+      </div> <!-- suite -->
+    </div> <!-- navigator-root -->
+    <div class="wrapper">
+      <div class="main-panel-root">
+        <div panel-name="suite-PropertyMonitorSuite" class="panel PropertyMonitorSuite">
+          <div class="suite-PropertyMonitorSuite-class-failed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="failed.png"/>
+              <span class="class-name">com.propertymonitor.pages.ProjectSearchPage</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickFurnishingFilter">
+                  </a> <!-- clickFurnishingFilter -->
+                  <span class="method-name">clickFurnishingFilter</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user selected the &apos;Partially Furnished&apos; option
+	at com.propertymonitor.pages.ProjectSearchPage.clickFurnishingFilter(ProjectSearchPage.java:1226)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickKitchenFilter">
+                  </a> <!-- clickKitchenFilter -->
+                  <span class="method-name">clickKitchenFilter</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user selected the &apos;Partially equipped&apos; kitchen option
+	at com.propertymonitor.pages.ProjectSearchPage.clickKitchenFilter(ProjectSearchPage.java:1288)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickSelectDld">
+                  </a> <!-- clickSelectDld -->
+                  <span class="method-name">clickSelectDld</span>
+                  <div class="stack-trace">org.openqa.selenium.StaleElementReferenceException: The element with the reference ba9dc67d-b9eb-464d-a7bd-90819b7be5de is stale; either its node document is not the active document, or it is no longer connected to the DOM
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Build info: version: &apos;4.17.0&apos;, revision: &apos;e52b1be057*&apos;
+System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;19.0.2&apos;
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Command: [50c3b3d7-a933-44d0-a567-c272e12af785, getElementText {id=ba9dc67d-b9eb-464d-a7bd-90819b7be5de}]
+Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersion: 138.0.1, moz:accessibilityChecks: false, moz:buildID: 20250430203103, moz:geckodriverVersion: 0.36.0, moz:headless: false, moz:platformVersion: 10.0, moz:processID: 9728, moz:profile: C:\Users\admin\AppData\Loca..., moz:shutdownTimeout: 60000, moz:webdriverClick: true, moz:windowless: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, userAgent: Mozilla/5.0 (Windows NT 10....}
+Element: [[FirefoxDriver: firefox on windows (50c3b3d7-a933-44d0-a567-c272e12af785)] -&gt; xpath: //p[contains(@class, &apos;chakra-text&apos;) and contains(text(), &apos;project&apos;)]]
+Session ID: 50c3b3d7-a933-44d0-a567-c272e12af785
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:185)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:134)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:51)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:519)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.getText(RemoteWebElement.java:191)
+	at com.propertymonitor.pages.ProjectSearchPage.getProjectCount(ProjectSearchPage.java:1438)
+	at com.propertymonitor.pages.ProjectSearchPage.clickSelectDld(ProjectSearchPage.java:942)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickSelectSalesStartDate">
+                  </a> <!-- clickSelectSalesStartDate -->
+                  <span class="method-name">clickSelectSalesStartDate</span>
+                  <div class="stack-trace">org.openqa.selenium.StaleElementReferenceException: The element with the reference 98346291-0e28-4d8e-9f2b-5bbb39e7635d is stale; either its node document is not the active document, or it is no longer connected to the DOM
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Build info: version: &apos;4.17.0&apos;, revision: &apos;e52b1be057*&apos;
+System info: os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;19.0.2&apos;
+Driver info: org.openqa.selenium.firefox.FirefoxDriver
+Command: [50c3b3d7-a933-44d0-a567-c272e12af785, getElementText {id=98346291-0e28-4d8e-9f2b-5bbb39e7635d}]
+Capabilities {acceptInsecureCerts: true, browserName: firefox, browserVersion: 138.0.1, moz:accessibilityChecks: false, moz:buildID: 20250430203103, moz:geckodriverVersion: 0.36.0, moz:headless: false, moz:platformVersion: 10.0, moz:processID: 9728, moz:profile: C:\Users\admin\AppData\Loca..., moz:shutdownTimeout: 60000, moz:webdriverClick: true, moz:windowless: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, userAgent: Mozilla/5.0 (Windows NT 10....}
+Element: [[FirefoxDriver: firefox on windows (50c3b3d7-a933-44d0-a567-c272e12af785)] -&gt; xpath: //p[contains(@class, &apos;chakra-text&apos;) and contains(text(), &apos;project&apos;)]]
+Session ID: 50c3b3d7-a933-44d0-a567-c272e12af785
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:185)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:134)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:51)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:519)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.getText(RemoteWebElement.java:191)
+	at com.propertymonitor.pages.ProjectSearchPage.getProjectCount(ProjectSearchPage.java:1438)
+	at com.propertymonitor.pages.ProjectSearchPage.clickSelectSalesStartDate(ProjectSearchPage.java:518)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickUnSelectCalendar">
+                  </a> <!-- clickUnSelectCalendar -->
+                  <span class="method-name">clickUnSelectCalendar</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after Click on the close icon to Reset the Selected completion Date.
+	at com.propertymonitor.pages.ProjectSearchPage.clickUnSelectCalendar(ProjectSearchPage.java:491)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="inputBuiltupValue">
+                  </a> <!-- inputBuiltupValue -->
+                  <span class="method-name">inputBuiltupValue</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user input Min and Max value on the Built up area
+	at com.propertymonitor.pages.ProjectSearchPage.inputBuiltupValue(ProjectSearchPage.java:706)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="inputPlotAreaValue">
+                  </a> <!-- inputPlotAreaValue -->
+                  <span class="method-name">inputPlotAreaValue</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user input Min and Max value on the plot area
+	at com.propertymonitor.pages.ProjectSearchPage.inputPlotAreaValue(ProjectSearchPage.java:769)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="resetDownPaymentValue">
+                  </a> <!-- resetDownPaymentValue -->
+                  <span class="method-name">resetDownPaymentValue</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user Reset Min and Max value of down payment percentage
+	at com.propertymonitor.pages.ProjectSearchPage.resetDownPaymentValue(ProjectSearchPage.java:865)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="selectConstructionStatus">
+                  </a> <!-- selectConstructionStatus -->
+                  <span class="method-name">selectConstructionStatus</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after selecting an upcoming construction status.
+	at com.propertymonitor.pages.ProjectSearchPage.selectConstructionStatus(ProjectSearchPage.java:427)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectDld">
+                  </a> <!-- unSelectDld -->
+                  <span class="method-name">unSelectDld</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user unselected 50% DLD transfer fee
+	at com.propertymonitor.pages.ProjectSearchPage.unSelectDld(ProjectSearchPage.java:993)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectKitchenFilter">
+                  </a> <!-- unSelectKitchenFilter -->
+                  <span class="method-name">unSelectKitchenFilter</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user unselected the &apos;Partially equipped&apos; kitchen option
+	at com.propertymonitor.pages.ProjectSearchPage.unSelectKitchenFilter(ProjectSearchPage.java:1319)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectPaymentField">
+                  </a> <!-- unSelectPaymentField -->
+                  <span class="method-name">unSelectPaymentField</span>
+                  <div class="stack-trace">java.lang.AssertionError: Project count did not update after user unselected the &apos;On Completion&apos; payment plan
+	at com.propertymonitor.pages.ProjectSearchPage.unSelectPaymentField(ProjectSearchPage.java:930)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 26 stack frames
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-PropertyMonitorSuite-class-failed -->
+          <div class="suite-PropertyMonitorSuite-class-passed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="passed.png"/>
+              <span class="class-name">com.propertymonitor.pages.LoginPage</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="testValidLogin">
+                  </a> <!-- testValidLogin -->
+                  <span class="method-name">testValidLogin</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="verifyProjectSearchPageURL">
+                  </a> <!-- verifyProjectSearchPageURL -->
+                  <span class="method-name">verifyProjectSearchPageURL</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-PropertyMonitorSuite-class-passed -->
+          <div class="suite-PropertyMonitorSuite-class-passed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="passed.png"/>
+              <span class="class-name">com.propertymonitor.pages.ProjectSearchPage</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickAdvanceFilter">
+                  </a> <!-- clickAdvanceFilter -->
+                  <span class="method-name">clickAdvanceFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickApplyButton">
+                  </a> <!-- clickApplyButton -->
+                  <span class="method-name">clickApplyButton</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickPaymentField">
+                  </a> <!-- clickPaymentField -->
+                  <span class="method-name">clickPaymentField</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickResetFilter">
+                  </a> <!-- clickResetFilter -->
+                  <span class="method-name">clickResetFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickSearchDeveloper">
+                  </a> <!-- clickSearchDeveloper -->
+                  <span class="method-name">clickSearchDeveloper</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickSelectCalendar">
+                  </a> <!-- clickSelectCalendar -->
+                  <span class="method-name">clickSelectCalendar</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="clickUnSelectSalesStartDate">
+                  </a> <!-- clickUnSelectSalesStartDate -->
+                  <span class="method-name">clickUnSelectSalesStartDate</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="heightClassFilter">
+                  </a> <!-- heightClassFilter -->
+                  <span class="method-name">heightClassFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="inputBrokerCommissionValue">
+                  </a> <!-- inputBrokerCommissionValue -->
+                  <span class="method-name">inputBrokerCommissionValue</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="inputDownPaymentValue">
+                  </a> <!-- inputDownPaymentValue -->
+                  <span class="method-name">inputDownPaymentValue</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="inputMinMaxCompletionPercentage">
+                  </a> <!-- inputMinMaxCompletionPercentage -->
+                  <span class="method-name">inputMinMaxCompletionPercentage</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="resetBrokerCommissionValue">
+                  </a> <!-- resetBrokerCommissionValue -->
+                  <span class="method-name">resetBrokerCommissionValue</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="resetBuiltupValue">
+                  </a> <!-- resetBuiltupValue -->
+                  <span class="method-name">resetBuiltupValue</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="resetMinMaxCompletionPercentage">
+                  </a> <!-- resetMinMaxCompletionPercentage -->
+                  <span class="method-name">resetMinMaxCompletionPercentage</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="resetPlotAreaValue">
+                  </a> <!-- resetPlotAreaValue -->
+                  <span class="method-name">resetPlotAreaValue</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="selectBedroomLabel">
+                  </a> <!-- selectBedroomLabel -->
+                  <span class="method-name">selectBedroomLabel</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="selectBrandFilter">
+                  </a> <!-- selectBrandFilter -->
+                  <span class="method-name">selectBrandFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="selectMultipleAmenities">
+                  </a> <!-- selectMultipleAmenities -->
+                  <span class="method-name">selectMultipleAmenities</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="selectUpcomingSaleStatus">
+                  </a> <!-- selectUpcomingSaleStatus -->
+                  <span class="method-name">selectUpcomingSaleStatus</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testClearLocationUpdatesProjectCount">
+                  </a> <!-- testClearLocationUpdatesProjectCount -->
+                  <span class="method-name">testClearLocationUpdatesProjectCount</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testSearchLocationUpdatesProjectCount">
+                  </a> <!-- testSearchLocationUpdatesProjectCount -->
+                  <span class="method-name">testSearchLocationUpdatesProjectCount</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testSelectApartmentUnitType">
+                  </a> <!-- testSelectApartmentUnitType -->
+                  <span class="method-name">testSelectApartmentUnitType</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testUnselectApartmentUnitType">
+                  </a> <!-- testUnselectApartmentUnitType -->
+                  <span class="method-name">testUnselectApartmentUnitType</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectBedroomLabel">
+                  </a> <!-- unSelectBedroomLabel -->
+                  <span class="method-name">unSelectBedroomLabel</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectBrandFilter">
+                  </a> <!-- unSelectBrandFilter -->
+                  <span class="method-name">unSelectBrandFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectFurnishingFilter">
+                  </a> <!-- unSelectFurnishingFilter -->
+                  <span class="method-name">unSelectFurnishingFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="unSelectheightClassFilter">
+                  </a> <!-- unSelectheightClassFilter -->
+                  <span class="method-name">unSelectheightClassFilter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="uncheckUpcomingSaleStatus">
+                  </a> <!-- uncheckUpcomingSaleStatus -->
+                  <span class="method-name">uncheckUpcomingSaleStatus</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="verifyHeatMapSelected">
+                  </a> <!-- verifyHeatMapSelected -->
+                  <span class="method-name">verifyHeatMapSelected</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-PropertyMonitorSuite-class-passed -->
+        </div> <!-- panel PropertyMonitorSuite -->
+        <div panel-name="test-xml-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">C:\Users\admin\eclipse-workspace\PMIQ-Automation\src\test\java\testng.xml</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE suite SYSTEM &quot;https://testng.org/testng-1.0.dtd&quot;&gt;
+&lt;suite name=&quot;PropertyMonitorSuite&quot;&gt;
+  &lt;test thread-count=&quot;5&quot; name=&quot;Regression Tests&quot;&gt;
+    &lt;parameter name=&quot;environment&quot; value=&quot;stage&quot;/&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;com.propertymonitor.base.BaseTest&quot;/&gt;
+      &lt;class name=&quot;com.propertymonitor.pages.LoginPage&quot;/&gt;
+      &lt;class name=&quot;com.propertymonitor.pages.ProjectSearchPage&quot;/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- Regression Tests --&gt;
+&lt;/suite&gt; &lt;!-- PropertyMonitorSuite --&gt;
+            </pre>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="testlist-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Tests for PropertyMonitorSuite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <ul>
+              <li>
+                <span class="test-name">Regression Tests (3 classes)</span>
+              </li>
+            </ul>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="group-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Groups for PropertyMonitorSuite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="times-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Times for PropertyMonitorSuite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="times-div">
+              <script type="text/javascript">
+suiteTableInitFunctions.push('tableData_PropertyMonitorSuite');
+function tableData_PropertyMonitorSuite() {
+var data = new google.visualization.DataTable();
+data.addColumn('number', 'Number');
+data.addColumn('string', 'Method');
+data.addColumn('string', 'Class');
+data.addColumn('number', 'Time (ms)');
+data.addRows(43);
+data.setCell(0, 0, 0)
+data.setCell(0, 1, 'clickSearchDeveloper')
+data.setCell(0, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(0, 3, 19900);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'testSearchLocationUpdatesProjectCount')
+data.setCell(1, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(1, 3, 16134);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'testSelectApartmentUnitType')
+data.setCell(2, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(2, 3, 8190);
+data.setCell(3, 0, 3)
+data.setCell(3, 1, 'uncheckUpcomingSaleStatus')
+data.setCell(3, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(3, 3, 6872);
+data.setCell(4, 0, 4)
+data.setCell(4, 1, 'testUnselectApartmentUnitType')
+data.setCell(4, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(4, 3, 6736);
+data.setCell(5, 0, 5)
+data.setCell(5, 1, 'testClearLocationUpdatesProjectCount')
+data.setCell(5, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(5, 3, 6574);
+data.setCell(6, 0, 6)
+data.setCell(6, 1, 'inputDownPaymentValue')
+data.setCell(6, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(6, 3, 3469);
+data.setCell(7, 0, 7)
+data.setCell(7, 1, 'resetMinMaxCompletionPercentage')
+data.setCell(7, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(7, 3, 3370);
+data.setCell(8, 0, 8)
+data.setCell(8, 1, 'inputBrokerCommissionValue')
+data.setCell(8, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(8, 3, 3197);
+data.setCell(9, 0, 9)
+data.setCell(9, 1, 'inputPlotAreaValue')
+data.setCell(9, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(9, 3, 3099);
+data.setCell(10, 0, 10)
+data.setCell(10, 1, 'inputBuiltupValue')
+data.setCell(10, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(10, 3, 3044);
+data.setCell(11, 0, 11)
+data.setCell(11, 1, 'selectBrandFilter')
+data.setCell(11, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(11, 3, 3038);
+data.setCell(12, 0, 12)
+data.setCell(12, 1, 'clickApplyButton')
+data.setCell(12, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(12, 3, 2815);
+data.setCell(13, 0, 13)
+data.setCell(13, 1, 'selectUpcomingSaleStatus')
+data.setCell(13, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(13, 3, 2673);
+data.setCell(14, 0, 14)
+data.setCell(14, 1, 'selectMultipleAmenities')
+data.setCell(14, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(14, 3, 2567);
+data.setCell(15, 0, 15)
+data.setCell(15, 1, 'selectConstructionStatus')
+data.setCell(15, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(15, 3, 2520);
+data.setCell(16, 0, 16)
+data.setCell(16, 1, 'inputMinMaxCompletionPercentage')
+data.setCell(16, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(16, 3, 2499);
+data.setCell(17, 0, 17)
+data.setCell(17, 1, 'resetBrokerCommissionValue')
+data.setCell(17, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(17, 3, 2495);
+data.setCell(18, 0, 18)
+data.setCell(18, 1, 'unSelectBrandFilter')
+data.setCell(18, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(18, 3, 2480);
+data.setCell(19, 0, 19)
+data.setCell(19, 1, 'heightClassFilter')
+data.setCell(19, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(19, 3, 2316);
+data.setCell(20, 0, 20)
+data.setCell(20, 1, 'unSelectheightClassFilter')
+data.setCell(20, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(20, 3, 2199);
+data.setCell(21, 0, 21)
+data.setCell(21, 1, 'clickPaymentField')
+data.setCell(21, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(21, 3, 2146);
+data.setCell(22, 0, 22)
+data.setCell(22, 1, 'clickAdvanceFilter')
+data.setCell(22, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(22, 3, 2025);
+data.setCell(23, 0, 23)
+data.setCell(23, 1, 'clickSelectCalendar')
+data.setCell(23, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(23, 3, 1972);
+data.setCell(24, 0, 24)
+data.setCell(24, 1, 'unSelectDld')
+data.setCell(24, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(24, 3, 1920);
+data.setCell(25, 0, 25)
+data.setCell(25, 1, 'resetBuiltupValue')
+data.setCell(25, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(25, 3, 1904);
+data.setCell(26, 0, 26)
+data.setCell(26, 1, 'unSelectKitchenFilter')
+data.setCell(26, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(26, 3, 1886);
+data.setCell(27, 0, 27)
+data.setCell(27, 1, 'clickFurnishingFilter')
+data.setCell(27, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(27, 3, 1847);
+data.setCell(28, 0, 28)
+data.setCell(28, 1, 'resetPlotAreaValue')
+data.setCell(28, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(28, 3, 1810);
+data.setCell(29, 0, 29)
+data.setCell(29, 1, 'verifyHeatMapSelected')
+data.setCell(29, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(29, 3, 1654);
+data.setCell(30, 0, 30)
+data.setCell(30, 1, 'clickKitchenFilter')
+data.setCell(30, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(30, 3, 1617);
+data.setCell(31, 0, 31)
+data.setCell(31, 1, 'unSelectFurnishingFilter')
+data.setCell(31, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(31, 3, 1597);
+data.setCell(32, 0, 32)
+data.setCell(32, 1, 'clickResetFilter')
+data.setCell(32, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(32, 3, 1536);
+data.setCell(33, 0, 33)
+data.setCell(33, 1, 'clickSelectSalesStartDate')
+data.setCell(33, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(33, 3, 1470);
+data.setCell(34, 0, 34)
+data.setCell(34, 1, 'resetDownPaymentValue')
+data.setCell(34, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(34, 3, 1465);
+data.setCell(35, 0, 35)
+data.setCell(35, 1, 'unSelectPaymentField')
+data.setCell(35, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(35, 3, 1331);
+data.setCell(36, 0, 36)
+data.setCell(36, 1, 'unSelectBedroomLabel')
+data.setCell(36, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(36, 3, 1175);
+data.setCell(37, 0, 37)
+data.setCell(37, 1, 'selectBedroomLabel')
+data.setCell(37, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(37, 3, 1167);
+data.setCell(38, 0, 38)
+data.setCell(38, 1, 'clickUnSelectSalesStartDate')
+data.setCell(38, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(38, 3, 676);
+data.setCell(39, 0, 39)
+data.setCell(39, 1, 'clickUnSelectCalendar')
+data.setCell(39, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(39, 3, 641);
+data.setCell(40, 0, 40)
+data.setCell(40, 1, 'clickSelectDld')
+data.setCell(40, 2, 'com.propertymonitor.pages.ProjectSearchPage')
+data.setCell(40, 3, 165);
+data.setCell(41, 0, 41)
+data.setCell(41, 1, 'testValidLogin')
+data.setCell(41, 2, 'com.propertymonitor.pages.LoginPage')
+data.setCell(41, 3, 37);
+data.setCell(42, 0, 42)
+data.setCell(42, 1, 'verifyProjectSearchPageURL')
+data.setCell(42, 2, 'com.propertymonitor.pages.LoginPage')
+data.setCell(42, 3, 25);
+window.suiteTableData['PropertyMonitorSuite']= { tableData: data, tableDiv: 'times-div-PropertyMonitorSuite'}
+return data;
+}
+              </script>
+              <span class="suite-total-time">Total running time: 2 minutes</span>
+              <div id="times-div-PropertyMonitorSuite">
+              </div> <!-- times-div-PropertyMonitorSuite -->
+            </div> <!-- times-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="reporter-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Reporter output for PropertyMonitorSuite</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="ignored-methods-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">2 ignored methods</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="ignored-class-div">
+              <span class="ignored-class-name">com.propertymonitor.pages.LoginPage</span>
+              <div class="ignored-methods-div">
+                <span class="ignored-method-name">initializeDriver</span>
+                <br/>
+              </div> <!-- ignored-methods-div -->
+            </div> <!-- ignored-class-div -->
+            <div class="ignored-class-div">
+              <span class="ignored-class-name">com.propertymonitor.pages.ProjectSearchPage</span>
+              <div class="ignored-methods-div">
+                <span class="ignored-method-name">initializeDriver</span>
+                <br/>
+              </div> <!-- ignored-methods-div -->
+            </div> <!-- ignored-class-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="chronological-PropertyMonitorSuite" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Methods in chronological order</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="chronological-class">
+              <div class="chronological-class-name">com.propertymonitor.base.BaseTest</div> <!-- chronological-class-name -->
+              <div class="configuration-suite before">
+                <span class="method-name">initializeDriver</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-suite before -->
+            </div> <!-- chronological-class -->
+            <div class="chronological-class">
+              <div class="chronological-class-name">com.propertymonitor.pages.LoginPage</div> <!-- chronological-class-name -->
+              <div class="configuration-class before">
+                <span class="method-name">setUp</span>
+                <span class="method-start">7839 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="test-method">
+                <span class="method-name">testValidLogin</span>
+                <span class="method-start">24759 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">verifyProjectSearchPageURL</span>
+                <span class="method-start">24806 ms</span>
+              </div> <!-- test-method -->
+            </div> <!-- chronological-class -->
+            <div class="chronological-class">
+              <div class="chronological-class-name">com.propertymonitor.pages.ProjectSearchPage</div> <!-- chronological-class-name -->
+              <div class="configuration-class before">
+                <span class="method-name">setUp</span>
+                <span class="method-start">24837 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="test-method">
+                <span class="method-name">testSearchLocationUpdatesProjectCount</span>
+                <span class="method-start">24848 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testClearLocationUpdatesProjectCount</span>
+                <span class="method-start">40988 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testSelectApartmentUnitType</span>
+                <span class="method-start">47566 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">testUnselectApartmentUnitType</span>
+                <span class="method-start">55759 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">uncheckUpcomingSaleStatus</span>
+                <span class="method-start">62497 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">selectUpcomingSaleStatus</span>
+                <span class="method-start">69372 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickSearchDeveloper</span>
+                <span class="method-start">72049 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickAdvanceFilter</span>
+                <span class="method-start">91954 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">selectConstructionStatus</span>
+                <span class="method-start">93981 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickSelectCalendar</span>
+                <span class="method-start">96506 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">clickUnSelectCalendar</span>
+                <span class="method-start">98482 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">clickSelectSalesStartDate</span>
+                <span class="method-start">99126 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickUnSelectSalesStartDate</span>
+                <span class="method-start">100600 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">inputMinMaxCompletionPercentage</span>
+                <span class="method-start">101279 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">resetMinMaxCompletionPercentage</span>
+                <span class="method-start">103780 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">selectBedroomLabel</span>
+                <span class="method-start">107152 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">unSelectBedroomLabel</span>
+                <span class="method-start">108322 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">inputBuiltupValue</span>
+                <span class="method-start">109499 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">inputPlotAreaValue</span>
+                <span class="method-start">112546 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">resetBuiltupValue</span>
+                <span class="method-start">115649 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">resetPlotAreaValue</span>
+                <span class="method-start">117556 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">inputDownPaymentValue</span>
+                <span class="method-start">119368 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">resetDownPaymentValue</span>
+                <span class="method-start">122840 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickPaymentField</span>
+                <span class="method-start">124308 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">unSelectPaymentField</span>
+                <span class="method-start">126457 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">clickSelectDld</span>
+                <span class="method-start">127790 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">unSelectDld</span>
+                <span class="method-start">127959 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">inputBrokerCommissionValue</span>
+                <span class="method-start">129882 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">resetBrokerCommissionValue</span>
+                <span class="method-start">133081 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">heightClassFilter</span>
+                <span class="method-start">135578 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">unSelectheightClassFilter</span>
+                <span class="method-start">137896 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">selectBrandFilter</span>
+                <span class="method-start">140097 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">unSelectBrandFilter</span>
+                <span class="method-start">143137 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">clickFurnishingFilter</span>
+                <span class="method-start">145621 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">unSelectFurnishingFilter</span>
+                <span class="method-start">147471 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">clickKitchenFilter</span>
+                <span class="method-start">149069 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">unSelectKitchenFilter</span>
+                <span class="method-start">150688 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">selectMultipleAmenities</span>
+                <span class="method-start">152575 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickResetFilter</span>
+                <span class="method-start">155144 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">clickApplyButton</span>
+                <span class="method-start">156683 ms</span>
+              </div> <!-- test-method -->
+              <div class="test-method">
+                <span class="method-name">verifyHeatMapSelected</span>
+                <span class="method-start">159501 ms</span>
+              </div> <!-- test-method -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+      </div> <!-- main-panel-root -->
+    </div> <!-- wrapper -->
+  </body>
+<script type="text/javascript" src="testng-reports2.js"></script>
+</html>
