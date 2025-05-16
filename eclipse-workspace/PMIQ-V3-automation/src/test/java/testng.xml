@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="PropertyMonitorSuite">
+    <test name="Regression Tests">
+        <parameter name="environment" value="stage"/>
+        <classes>
+        <class name="com.propertymonitor.base.BaseTest" />
+            <class name="com.propertymonitor.pages.LoginPage"/>
+            <class name="com.propertymonitor.pages.ProjectSearchPage"/>
+        </classes>
+    </test>
+</suite>
