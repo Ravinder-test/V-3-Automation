@@ -4,24 +4,32 @@
   <test thread-count="5" name="Regression Tests(failed)">
     <parameter name="environment" value="stage"/>
     <classes>
-      <class name="com.propertymonitor.pages.ProjectSearchPage">
+      <class name="com.propertymonitor.tests.LoginPageTest">
         <methods>
-          <include name="unSelectDld"/>
-          <include name="setUp"/>
-          <include name="unSelectKitchenFilter"/>
-          <include name="inputPlotAreaValue"/>
-          <include name="resetDownPaymentValue"/>
-          <include name="inputBuiltupValue"/>
-          <include name="unSelectPaymentField"/>
-          <include name="clickFurnishingFilter"/>
-          <include name="clickKitchenFilter"/>
-          <include name="clickSelectSalesStartDate"/>
-          <include name="selectConstructionStatus"/>
-          <include name="initializeDriver"/>
-          <include name="clickSelectDld"/>
-          <include name="clickUnSelectCalendar"/>
+          <include name="quitDriverAndFlushReports"/>
+          <include name="setup"/>
+          <include name="initializeDriverAndReports"/>
+          <include name="testValidLoginLandsOnProjectSearch"/>
+          <include name="startExtent"/>
+          <include name="verifyProjectSearchUrlLoaded"/>
+          <include name="captureResult"/>
         </methods>
-      </class> <!-- com.propertymonitor.pages.ProjectSearchPage -->
+      </class> <!-- com.propertymonitor.tests.LoginPageTest -->
+      <class name="com.propertymonitor.tests.ProjectSearchTest">
+        <methods>
+          <include name="logTestResult"/>
+          <include name="testUnselectApartmentUnitType"/>
+          <include name="testSelectApartmentUnitType"/>
+          <include name="quitDriverAndFlushReports"/>
+          <include name="testSearchLocationUpdatesProjectCount"/>
+          <include name="initializeDriverAndReports"/>
+          <include name="testUncheckUpcomingSaleStatus"/>
+          <include name="testClearLocationUpdatesProjectCount"/>
+          <include name="startTestLog"/>
+          <include name="testSelectUpcomingSaleStatus"/>
+          <include name="setupProjectSearch"/>
+        </methods>
+      </class> <!-- com.propertymonitor.tests.ProjectSearchTest -->
     </classes>
   </test> <!-- Regression Tests(failed) -->
 </suite> <!-- Failed suite [PropertyMonitorSuite] -->

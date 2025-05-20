@@ -1,16 +1,23 @@
 package com.propertymonitor.base;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.propertymonitor.pages.LoginPage;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.ProfilesIni;
+import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+
+import org.testng.annotations.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -18,71 +25,140 @@ public class BaseTest {
 
     protected static WebDriver driver;
     protected static WebDriverWait wait;
+    protected static ExtentReports extent;
+    protected static ExtentTest extentTest;
+
+    protected static String baseUrl;
+    protected static String email;
+    protected static String password;
+    protected static String environment;
+
     private static final Duration DEFAULT_WAIT_TIMEOUT = Duration.ofSeconds(10);
 
-    // Add static variables to hold configuration properties
-    protected static String loginUrl;
-    protected static String projectSearchUrl;
-    protected static String email; // Consider if email/password should really be shared or just used in LoginPage
-    protected static String password; // <-- Security risk: Avoid making password static and accessible globally if possible
-
-    /**
-     * Initializes the WebDriver before the test suite starts.
-     */
     @BeforeSuite
-    public void initializeDriver() {
-        System.out.println("Initializing WebDriver for the test suite...");
+    public void initializeDriverAndReports() throws IOException {
+        System.out.println("Initializing WebDriver and ExtentReports...");
+
+        environment = getTargetEnvironmentHelper();
+        loadEnvironmentConfig(environment);
+
         WebDriverManager.firefoxdriver().setup();
+
         FirefoxOptions options = new FirefoxOptions();
-
-        // Configure Firefox profile
-        ProfilesIni profileIni = new ProfilesIni();
-        String profileToUseName = "default"; // The name of the profile you want to use
-        FirefoxProfile profile = profileIni.getProfile(profileToUseName);
-
-        if (profile == null) {
-            profile = new FirefoxProfile();
-            System.out.println("Named Firefox profile '" + profileToUseName + "' not found. Creating a new, unnamed profile.");
-        } else {
-            System.out.println("Using named Firefox profile: '" + profileToUseName + "'");
-        }
-
-        options.setProfile(profile);
+        options.setProfile(new FirefoxProfile()); // Clean profile
 
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, DEFAULT_WAIT_TIMEOUT);
-        System.out.println("WebDriver initialized.");
+
+        // Extent Report setup
+        String reportPath = System.getProperty("user.dir") + "/test-output/ExtentReport.html";
+        ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath);
+        sparkReporter.config().setReportName("Property Monitor Test Suite");
+        sparkReporter.config().setDocumentTitle("Automation Report");
+        sparkReporter.config().setTheme(Theme.STANDARD);
+
+        extent = new ExtentReports();
+        extent.attachReporter(sparkReporter);
+        extent.setSystemInfo("Tester", "QA Automation");
+        extent.setSystemInfo("Browser", "Firefox");
+
+        System.out.println("WebDriver and ExtentReports initialized.");
+
+        // ✅ Do login only once after driver is initialized
+        performLoginOnce();
     }
 
     /**
-     * Quits the WebDriver after the test suite finishes.
+     * Login once for the entire suite. Skips if already on project search page.
      */
-//    @AfterSuite
-//    public void quitDriver() {
-//        if (driver != null) {
-//            driver.quit();
-//            System.out.println("WebDriver quit by BaseTest @AfterSuite.");
-//        }
-//    }
+    private void performLoginOnce() {
+        try {
+            System.out.println("Performing initial login...");
 
-     // Helper method to get target environment - put it here so all pages can use it
-    protected static String getTargetEnvironmentHelper() throws IOException {
-         Properties envProps = new Properties();
-        ClassLoader classLoader = BaseTest.class.getClassLoader(); // Use BaseTest class loader
-        try (java.io.InputStream inputStream = classLoader.getResourceAsStream("test-environment.properties")) {
-             if (inputStream == null) {
-                 System.out.println("Could not find test-environment.properties in the classpath. Defaulting to 'stage'.");
-                 return "stage";
+            if (!baseUrl.endsWith("/")) {
+                baseUrl += "/";
             }
-            envProps.load(inputStream);
-            String environment = envProps.getProperty("environment");
-            return (environment != null && !environment.isEmpty()) ? environment : "stage";
-         } catch (IOException e) {
-            System.err.println("Error reading test-environment.properties: " + e.getMessage());
-            throw e; // Re-throw as loading environment is crucial
+
+            driver.get(baseUrl + "auth/login");
+
+            String currentUrl = driver.getCurrentUrl();
+            if (currentUrl.contains("/projects/project-search")) {
+                System.out.println("Already logged in. Skipping login.");
+                return;
+            }
+
+            LoginPage loginPage = new LoginPage(driver, wait);
+            loginPage.login(email, password);
+
+            // Wait for element that confirms page is loaded
+            wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("div[data-test-id='list-scroll-wrapper']")
+            ));
+
+            System.out.println("Login successful. Current URL: " + driver.getCurrentUrl());
+
+        } catch (Exception e) {
+            System.err.println("Initial login failed: " + e.getMessage());
+            throw new RuntimeException("Login failed, stopping test run.", e);
         }
     }
 
-    // You can add helper methods here that test classes might need
+    @AfterSuite
+    public void quitDriverAndFlushReports() {
+        if (driver != null) {
+            driver.quit();
+            System.out.println("WebDriver quit by BaseTest @AfterSuite.");
+        }
+
+        if (extent != null) {
+            extent.flush();
+            System.out.println("ExtentReports flushed. Report generated.");
+        }
+    }
+
+    protected static ExtentTest createTest(String testName) {
+        if (extent == null) {
+            throw new IllegalStateException("ExtentReports is not initialized.");
+        }
+        return extent.createTest(testName);
+    }
+
+    protected static String getTargetEnvironmentHelper() throws IOException {
+        Properties envProps = new Properties();
+        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("test-environment.properties")) {
+            if (input == null) {
+                System.out.println("test-environment.properties not found. Defaulting to 'stage'.");
+                return "stage";
+            }
+            envProps.load(input);
+            return envProps.getProperty("environment", "stage");
+        }
+    }
+
+    protected static void loadEnvironmentConfig(String env) throws IOException {
+        Properties configProps = new Properties();
+        String filename = "config.properties";
+
+        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream(filename)) {
+            if (input == null) {
+                throw new IOException("Configuration file " + filename + " not found.");
+            }
+            configProps.load(input);
+
+            baseUrl = configProps.getProperty(env + ".baseUrl");
+            email = configProps.getProperty(env + ".email");
+            password = configProps.getProperty(env + ".password");
+
+            if (baseUrl == null || email == null || password == null) {
+                throw new IllegalArgumentException("Missing required properties in " + filename + " for environment: " + env);
+            }
+
+            System.out.println("Loaded configuration for environment: " + env);
+        }
+    }
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
 }
