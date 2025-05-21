@@ -25,7 +25,7 @@ public class LoginPage {
 
     private By emailField = By.xpath("//input[@data-test-id='email']");
     private By passwordField = By.xpath("//input[@data-test-id='password']");
-    private By loginButton = By.xpath("//html/body/div[1]/div[2]/div/div/div/button");
+    private By loginButton = By.xpath("//html/body/div[1]/div[2]/div/div/div/div/button");
     private By postLoginElement = By.cssSelector("[data-test-id='list-scroll-wrapper']");
 
     public LoginPage(WebDriver driver, WebDriverWait wait) {
@@ -115,7 +115,8 @@ public class LoginPage {
         try (FileInputStream fileIn = new FileInputStream(COOKIES_FILE);
              ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
 
-            Set<Cookie> cookies = (Set<Cookie>) objectIn.readObject();
+            @SuppressWarnings("unchecked")
+			Set<Cookie> cookies = (Set<Cookie>) objectIn.readObject();
             driver.manage().deleteAllCookies();
             for (Cookie cookie : cookies) {
                 driver.manage().addCookie(cookie);

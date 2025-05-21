@@ -2,9 +2,10 @@ package com.propertymonitor.base;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.propertymonitor.pages.LoginPage;
+import com.propertymonitor.utils.EmailUtility;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -16,8 +17,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import org.testng.annotations.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -65,7 +68,7 @@ public class BaseTest {
 
         System.out.println("WebDriver and ExtentReports initialized.");
 
-        // ✅ Do login only once after driver is initialized
+        // ✅ Login only once
         performLoginOnce();
     }
 
@@ -91,7 +94,6 @@ public class BaseTest {
             LoginPage loginPage = new LoginPage(driver, wait);
             loginPage.login(email, password);
 
-            // Wait for element that confirms page is loaded
             wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.cssSelector("div[data-test-id='list-scroll-wrapper']")
             ));
@@ -105,15 +107,66 @@ public class BaseTest {
     }
 
     @AfterSuite
-    public void quitDriverAndFlushReports() {
-        if (driver != null) {
-            driver.quit();
-            System.out.println("WebDriver quit by BaseTest @AfterSuite.");
-        }
+    public void quitDriverFlushReportsUploadAndEmail() {
+        try {
+            // Quit WebDriver
+            if (driver != null) {
+                driver.quit();
+                System.out.println("✅ WebDriver quit by BaseTest @AfterSuite.");
+            }
 
-        if (extent != null) {
-            extent.flush();
-            System.out.println("ExtentReports flushed. Report generated.");
+            // Flush ExtentReports (important to save report)
+            if (extent != null) {
+                extent.flush();
+                System.out.println("✅ ExtentReports flushed. Report generated.");
+            }
+
+            // Detect OS and use correct Bash command
+            String os = System.getProperty("os.name").toLowerCase();
+            String bashCommand;
+
+            if (os.contains("win")) {
+                bashCommand = "C:\\Program Files\\Git\\bin\\bash.exe";
+            } else {
+                bashCommand = "bash";
+            }
+
+            // Upload report via shell script
+            System.out.println("🔄 Uploading Extent HTML report to GitHub...");
+            ProcessBuilder pb = new ProcessBuilder(bashCommand, "upload-report.sh");
+            pb.directory(new java.io.File(System.getProperty("user.dir"))); // assuming script is in project root
+            Process process = pb.start();
+
+            // Capture output for logging
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                 BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+
+                while ((line = errorReader.readLine()) != null) {
+                    System.err.println(line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("✅ Report uploaded successfully to GitHub Pages.");
+
+                // Send report email on successful upload
+                System.out.println("📧 Sending report email to stakeholders...");
+                EmailUtility.sendReportEmail("ravinder@oktopi.ai, ravindersingh.singh00@gmail.com");
+                System.out.println("✅ Notification email sent successfully.");
+            } else {
+                System.err.println("❌ Report upload failed with exit code: " + exitCode);
+                System.err.println("Skipping email notification due to upload failure.");
+            }
+
+        } catch (IOException | InterruptedException e) {
+            System.err.println("❌ Error in AfterSuite: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

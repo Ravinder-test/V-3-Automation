@@ -4,6 +4,21 @@
   <test thread-count="5" name="Regression Tests(failed)">
     <parameter name="environment" value="stage"/>
     <classes>
+      <class name="com.propertymonitor.tests.ProjectSearchTest">
+        <methods>
+          <include name="logTestResult"/>
+          <include name="testUnselectApartmentUnitType"/>
+          <include name="testSelectApartmentUnitType"/>
+          <include name="quitDriverAndFlushReports"/>
+          <include name="initializeDriverAndReports"/>
+          <include name="testSearchLocationUpdatesProjectCount"/>
+          <include name="testUncheckUpcomingSaleStatus"/>
+          <include name="testClearLocationUpdatesProjectCount"/>
+          <include name="testSelectUpcomingSaleStatus"/>
+          <include name="startTestLog"/>
+          <include name="setupProjectSearch"/>
+        </methods>
+      </class> <!-- com.propertymonitor.tests.ProjectSearchTest -->
       <class name="com.propertymonitor.tests.LoginPageTest">
         <methods>
           <include name="quitDriverAndFlushReports"/>
@@ -15,21 +30,6 @@
           <include name="captureResult"/>
         </methods>
       </class> <!-- com.propertymonitor.tests.LoginPageTest -->
-      <class name="com.propertymonitor.tests.ProjectSearchTest">
-        <methods>
-          <include name="logTestResult"/>
-          <include name="testUnselectApartmentUnitType"/>
-          <include name="testSelectApartmentUnitType"/>
-          <include name="quitDriverAndFlushReports"/>
-          <include name="testSearchLocationUpdatesProjectCount"/>
-          <include name="initializeDriverAndReports"/>
-          <include name="testUncheckUpcomingSaleStatus"/>
-          <include name="testClearLocationUpdatesProjectCount"/>
-          <include name="startTestLog"/>
-          <include name="testSelectUpcomingSaleStatus"/>
-          <include name="setupProjectSearch"/>
-        </methods>
-      </class> <!-- com.propertymonitor.tests.ProjectSearchTest -->
     </classes>
   </test> <!-- Regression Tests(failed) -->
 </suite> <!-- Failed suite [PropertyMonitorSuite] -->
