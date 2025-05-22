@@ -8,4 +8,11 @@
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
         </classes>
     </test>
+    
+    <listeners>
+    <listener class-name="com.propertymonitor.listeners.TestListener" />
+</listeners>
+
+
 </suite>
+

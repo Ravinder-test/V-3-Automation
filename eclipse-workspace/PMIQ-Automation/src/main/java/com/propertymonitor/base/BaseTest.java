@@ -5,7 +5,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.propertymonitor.pages.LoginPage;
-import com.propertymonitor.utils.EmailUtility;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -48,7 +47,7 @@ public class BaseTest {
         WebDriverManager.firefoxdriver().setup();
 
         FirefoxOptions options = new FirefoxOptions();
-        options.setProfile(new FirefoxProfile()); // Clean profile
+        options.setProfile(new FirefoxProfile());
 
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
@@ -109,13 +108,11 @@ public class BaseTest {
     @AfterSuite
     public void quitDriverFlushReportsUploadAndEmail() {
         try {
-            // Quit WebDriver
             if (driver != null) {
                 driver.quit();
                 System.out.println("✅ WebDriver quit by BaseTest @AfterSuite.");
             }
 
-            // Flush ExtentReports (important to save report)
             if (extent != null) {
                 extent.flush();
                 System.out.println("✅ ExtentReports flushed. Report generated.");
@@ -123,21 +120,15 @@ public class BaseTest {
 
             // Detect OS and use correct Bash command
             String os = System.getProperty("os.name").toLowerCase();
-            String bashCommand;
-
-            if (os.contains("win")) {
-                bashCommand = "C:\\Program Files\\Git\\bin\\bash.exe";
-            } else {
-                bashCommand = "bash";
-            }
+            String bashCommand = os.contains("win") ? "C:\\Program Files\\Git\\bin\\bash.exe" : "bash";
 
             // Upload report via shell script
             System.out.println("🔄 Uploading Extent HTML report to GitHub...");
             ProcessBuilder pb = new ProcessBuilder(bashCommand, "upload-report.sh");
-            pb.directory(new java.io.File(System.getProperty("user.dir"))); // assuming script is in project root
+            pb.directory(new java.io.File(System.getProperty("user.dir")));
             Process process = pb.start();
 
-            // Capture output for logging
+            // Capture output
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                  BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
 
@@ -145,7 +136,6 @@ public class BaseTest {
                 while ((line = reader.readLine()) != null) {
                     System.out.println(line);
                 }
-
                 while ((line = errorReader.readLine()) != null) {
                     System.err.println(line);
                 }
@@ -154,11 +144,8 @@ public class BaseTest {
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("✅ Report uploaded successfully to GitHub Pages.");
-
-                // Send report email on successful upload
-                System.out.println("📧 Sending report email to stakeholders...");
-                EmailUtility.sendReportEmail("ravinder@oktopi.ai, ravindersingh.singh00@gmail.com");
-                System.out.println("✅ Notification email sent successfully.");
+                // Email will be sent from TestListener after full test completion
+                System.out.println("✅ Email responsibility moved to TestListener.");
             } else {
                 System.err.println("❌ Report upload failed with exit code: " + exitCode);
                 System.err.println("Skipping email notification due to upload failure.");
