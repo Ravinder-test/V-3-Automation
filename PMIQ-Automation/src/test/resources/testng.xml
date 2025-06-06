@@ -6,6 +6,7 @@
         
             <class name="com.propertymonitor.tests.LoginPageTest"/>
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
+            <class name="com.propertymonitor.tests.ProjectDetailTest"/>
         </classes>
     </test>
     
