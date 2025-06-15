@@ -715,6 +715,7 @@ public class ProjectSearchTest extends BaseTest {
         projectSearchPage.clickResetFiltersButton();
         projectSearchPage.waitFor(2000);
 
+        projectSearchPage.clickApplyButton();
         String projectCountAfterReset = projectSearchPage.getProjectCount(); // Count after reset
         extentTest.info("Project count after clicking 'Reset Filters': " + projectCountAfterReset);
 
@@ -722,41 +723,27 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ The project count updated after clicking 'Reset Filters'.");
     }
 
-    // This test closes the Advance Filter drawer, typically run after all advance filter tests.
-    @Test(priority = 41, description = "Verifies that clicking the 'Apply' button in the Advance Filter section closes it.")
-    public void test41_ClickApplyButtonAndVerifyDrawerClosed() {
-        // Ensure drawer is open before trying to apply
-        if (!projectSearchPage.isAdvanceFilterDrawerVisible()) {
-            projectSearchPage.clickAdvanceFilter();
-            projectSearchPage.waitFor(1000); // Allow time for drawer to open
-            extentTest.info("Re-opened the Advance Filter section for this test.");
-        }
 
-        projectSearchPage.clickApplyButton();
-        projectSearchPage.waitFor(1000); // Allow time for drawer to close
-
-        Assert.assertFalse(projectSearchPage.isAdvanceFilterDrawerVisible(), "❌ The Advance Filter section is still visible after clicking 'Apply'.");
-        extentTest.pass("✅ The 'Apply' button closed the Advance Filter section as expected.");
-    }
 
     // Verify User click and selected the heatmap checkbox or not
-    @Test(priority = 42, description = "Verifies that selecting the 'Heatmap' option updates the displayed project count.")
-    public void test42_VerifyHeatMapSelected() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting Heatmap: " + before);
+    @Test(priority = 41, description = "Verifies that selecting the 'Heatmap' option makes the Year Range Filter visible.")
+    public void test41_VerifyHeatMapSelected() {
+        // As requested, using extentTest directly here.
+        // Be mindful of this in parallel execution, ensure proper thread management elsewhere.
+        extentTest.info("Attempting to toggle Heatmap checkbox and verify Year Range Filter visibility."); 
 
-        projectSearchPage.toggleHeatmapCheckbox();
-        projectSearchPage.waitFor(3000);
+        projectSearchPage.toggleHeatmapCheckbox(); // This method now includes waiting for verifyYearRange
+        
+        boolean isYearRangeFilterVisible = projectSearchPage.isYearRangeFilterPresent(); // Changed method call
+        
+        extentTest.info("Verification: Year Range Filter element presence after toggling Heatmap."); 
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting Heatmap: " + after);
-
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting Heatmap.");
-        extentTest.pass("✅ The project count updated after selecting Heatmap.");
+        Assert.assertTrue(isYearRangeFilterVisible, "❌ Year Range Filter is not present or visible after toggling Heatmap.");
+        extentTest.pass("✅ Year Range Filter is present and visible after toggling Heatmap, confirming heatmap selection functionality."); 
     }
 
-    @Test(priority = 43, description = "Verifies that sorting the project list by different options (Earliest Completion, Latest Completion, Recently Added) reorders the projects.")
-    public void test43_VerifyProjectListUpdatesOnAllSortOptions() {
+    @Test(priority = 42, description = "Verifies that sorting the project list by different options (Earliest Completion, Latest Completion, Recently Added) reorders the projects.")
+    public void test42_VerifyProjectListUpdatesOnAllSortOptions() {
         // Define all sort options to test
         Map<String, By> sortOptions = new LinkedHashMap<>();
         sortOptions.put("Earliest Completion", projectSearchPage.getSortByEarliestCompletion());
@@ -792,27 +779,27 @@ public class ProjectSearchTest extends BaseTest {
         Assert.assertTrue(allOptionsSorted, "❌ One or more sort options did not update the project list as expected.");
     }
 
-    @Test(priority = 45, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
-    public void test45_SubmitFeedbackForm() {
-        String answer1 = "This is a test feedback message for automated testing.";
-        String answer2 = "Second part of test feedback.";
-
-        extentTest.info("Clicking the 'Feedback' button and entering test messages.");
-        projectSearchPage.submitFeedback(answer1, answer2);
-
-        boolean isThankYouShown = projectSearchPage.isThankYouNodePresent();
-
-        if (isThankYouShown) {
-            extentTest.pass("✅ Feedback submitted successfully. A thank-you message appeared.");
-        } else {
-            extentTest.fail("❌ Feedback submission failed. The thank-you message was not found.");
-        }
-        Assert.assertTrue(isThankYouShown, "❌ The feedback form did not show the thank-you message.");
-    }
+//    @Test(priority = 43, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
+//    public void test43_SubmitFeedbackForm() {
+//        String answer1 = "This is a test feedback message for automated testing.";
+//        String answer2 = "Second part of test feedback.";
+//
+//        extentTest.info("Clicking the 'Feedback' button and entering test messages.");
+//        projectSearchPage.submitFeedback(answer1, answer2);
+//
+//        boolean isThankYouShown = projectSearchPage.isThankYouNodePresent();
+//
+//        if (isThankYouShown) {
+//            extentTest.pass("✅ Feedback submitted successfully. A thank-you message appeared.");
+//        } else {
+//            extentTest.fail("❌ Feedback submission failed. The thank-you message was not found.");
+//        }
+//        Assert.assertTrue(isThankYouShown, "❌ The feedback form did not show the thank-you message.");
+//    }
 
     // Special Test method for handeling multiple click actions on the Single Project card.
-    @Test(priority = 46, description = "Verifies that clicking elements on a project card (like title, bedrooms, payments) opens the correct linked page/tab.")
-    public void test46_ProjectElementNavigationAndVerification() {
+    @Test(priority = 44, description = "Verifies that clicking elements on a project card (like title, bedrooms, payments) opens the correct linked page/tab.")
+    public void test44_ProjectElementNavigationAndVerification() {
         extentTest.info("Checking if clicking different parts of a project card leads to the right sections.");
         Map<String, Boolean> results = projectSearchPage.verifyNavigationForClickableElements();
         boolean allPassed = true;

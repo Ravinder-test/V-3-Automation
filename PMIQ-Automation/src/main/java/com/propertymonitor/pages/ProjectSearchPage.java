@@ -46,7 +46,7 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
 
     // Locators on the Advance filter dialog below.
     private final By advanceFilter = By.xpath("//button[@data-test-id='top-filter']");
-    private final By advanceFilterDrawer = By.xpath("//div[contains(@class, 'chakra-drawer__content')]"); // Added for drawer verification
+    private final By advanceFilterDrawer = By.xpath("//input[@data-test-id='advancedFilters.constructionStatus']"); // Added for drawer verification
 
     // Locators below are of Project status Advance filters.
     private final By clickConstructionFilter = By.xpath("//input[@data-test-id='advancedFilters.constructionStatus']");
@@ -87,7 +87,7 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     private By inputMaxBrokerCommission = By.xpath("(//input[@data-test-id='Max'])[3]");
 
     // Locators below are of Project Features
-    private By clickHeightClass = By.xpath("//input[@data-test-id='advancedFilters.heightClass']");
+    private By clickHeightClass = By.xpath("//input[@data-test-id='advancedFilters.heightCLass']");
     private By selectHeightClass = By.xpath("//label[.//span[text()='Mid-Rise (5-12 floors)']]");
 
     private By clickBrand = By.xpath("//input[@data-test-id='advancedFilters.brand']");
@@ -109,6 +109,8 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     // Locators below are on the Main P & S page...
     private By selectHeatmap = By.xpath("//label[contains(., 'Unit Completion Heatmap')]//span[contains(@class, 'chakra-checkbox__control')]");
 
+    private By verifyYearRange = By.xpath("//div[@data-group='true']/input[@data-test-id='basicFilters.maxYear']");
+    
     private By selectSideBar = By.xpath("//button[@data-test-id='sidebar-float-btn']");
     
     private final By sortByDropdown = By.xpath("//button[@data-test-id='sidebar-panel-sort-by']");
@@ -298,6 +300,7 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
 
     public void unselectBrands() {
         wait.until(ExpectedConditions.elementToBeClickable(clickBrand)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(clickBrand)).click();
         wait.until(ExpectedConditions.elementToBeClickable(selectBrand1)).click(); // Clicks again to unselect
         wait.until(ExpectedConditions.elementToBeClickable(selectBrand2)).click(); // Clicks again to unselect
         clickOutside();
@@ -327,8 +330,32 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(clickApply)).click();
     }
 
+    /**
+     * Toggles (selects/unselects) the 'Unit Completion Heatmap' checkbox.
+     * After clicking, it waits for the year range filter element to become visible.
+     */
     public void toggleHeatmapCheckbox() {
+        System.out.println("[INFO] Toggling 'Unit Completion Heatmap' checkbox.");
         wait.until(ExpectedConditions.elementToBeClickable(selectHeatmap)).click();
+        // Wait for the year range filter element to appear after toggling heatmap
+        wait.until(ExpectedConditions.visibilityOfElementLocated(verifyYearRange));
+        System.out.println("[INFO] 'Unit Completion Heatmap' checkbox toggled and year range filter is visible.");
+    }
+    
+    /**
+     * Checks if the year range filter element is present and visible.
+     * @return true if the year range filter is visible, false otherwise.
+     */
+    public boolean isYearRangeFilterPresent() { // Renamed from isMinYearFilterPresent
+        System.out.println("[INFO] Verifying presence/visibility of Year Range Filter input: " + verifyYearRange.toString());
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(verifyYearRange));
+            System.out.println("[INFO] Year Range Filter input is visible.");
+            return true;
+        } catch (org.openqa.selenium.TimeoutException e) {
+            System.out.println("[INFO] Year Range Filter input is NOT visible within timeout.");
+            return false;
+        }
     }
 
     public void clickSidebar() {

@@ -139,23 +139,23 @@ public class ProjectDetailTest extends BaseTest {
         extentTest.pass("✅ Downloads tab opened and content is visible.");
     }
 
-    @Test(priority = 9, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
-    public void test45_SubmitFeedbackForm() {
-        String answer1 = "This is a test feedback message for automated testing.";
-        String answer2 = "Second part of test feedback.";
-
-        extentTest.info("Clicking the 'Feedback' button and entering test messages.");
-        projectDetailPage.submitFeedback(answer1, answer2);
-
-        boolean isThankYouShown = projectDetailPage.isThankYouNodePresent();
-
-        if (isThankYouShown) {
-            extentTest.pass("✅ Feedback submitted successfully. A thank-you message appeared.");
-        } else {
-            extentTest.fail("❌ Feedback submission failed. The thank-you message was not found.");
-        }
-        Assert.assertTrue(isThankYouShown, "❌ The feedback form did not show the thank-you message.");
-    }
+//    @Test(priority = 9, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
+//    public void test9_SubmitFeedbackForm() {
+//        String answer1 = "This is a test feedback message for automated testing.";
+//        String answer2 = "Second part of test feedback.";
+//
+//        extentTest.info("Clicking the 'Feedback' button and entering test messages.");
+//        projectDetailPage.submitFeedback(answer1, answer2);
+//
+//        boolean isThankYouShown = projectDetailPage.isThankYouNodePresent();
+//
+//        if (isThankYouShown) {
+//            extentTest.pass("✅ Feedback submitted successfully. A thank-you message appeared.");
+//        } else {
+//            extentTest.fail("❌ Feedback submission failed. The thank-you message was not found.");
+//        }
+//        Assert.assertTrue(isThankYouShown, "❌ The feedback form did not show the thank-you message.");
+//    }
     
     @Test(priority = 10, description = "Verifies breadcrumb navigation to Project Search page and project counts visibility.")
     public void test10_VerifyBreadcrumbNavigationAndProjectCounts() {

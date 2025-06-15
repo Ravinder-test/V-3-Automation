@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="PropertyMonitorSuite">
-    <test name="Regression Tests">
+<suite name="PropertyMonitorSuite" parallel="false" thread-count="3">
+    
+        <!-- Firefox -->
+    <test name="Firefox Tests">
+        <parameter name="browser" value="firefox"/>
         <parameter name="environment" value="stage"/>
         <classes>
-        
             <class name="com.propertymonitor.tests.LoginPageTest"/>
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
             <class name="com.propertymonitor.tests.ProjectDetailTest"/>
+ 
         </classes>
     </test>
     
-    <listeners>
-    <listener class-name="com.propertymonitor.listeners.TestListener" />
-</listeners>
+   
 
+    <listeners>
+        <listener class-name="com.propertymonitor.listeners.TestListener"/>
+    </listeners>
 
 </suite>
-
