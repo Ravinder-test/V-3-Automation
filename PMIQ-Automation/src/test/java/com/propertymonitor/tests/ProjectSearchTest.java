@@ -33,16 +33,17 @@ public class ProjectSearchTest extends BaseTest {
         }
 
         if (testDescription.isEmpty()) {
-            // Generate a readable description from method name if @Test description is missing
             testDescription = method.getName()
-                                .replace("test", "")
-                                .replaceAll("([A-Z])", " $1")
-                                .trim() + " (Consider adding a specific description for this test)"; // Improved placeholder
+                    .replace("test", "")
+                    .replaceAll("([A-Z])", " $1")
+                    .trim() + " (Consider adding a specific description for this test)";
         }
 
-        extentTest = extent.createTest("📄 " + PAGE_NAME)
-                .assignCategory(PAGE_NAME)
-                .info("🔍 Test Case: " + testDescription);
+        
+
+        extentTest = extent.createTest("📄 " + PAGE_NAME + " [" + BaseTest.browserName + "]")
+        	    .assignCategory(BaseTest.browserName)
+        	   .info("🔍 Test Case: " + testDescription);
     }
 
     @AfterMethod

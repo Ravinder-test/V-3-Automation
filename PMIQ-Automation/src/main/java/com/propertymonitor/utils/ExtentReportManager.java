@@ -4,9 +4,10 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtentReportManager {
+
     private static ExtentReports extent;
 
-    public static ExtentReports getReportInstance() {
+    public static ExtentReports getReportInstance(String browserName) {
         if (extent == null) {
             String reportPath = System.getProperty("user.dir") + "/test-output/ExtentReport.html";
             ExtentSparkReporter reporter = new ExtentSparkReporter(reportPath);
@@ -17,6 +18,8 @@ public class ExtentReportManager {
             extent.attachReporter(reporter);
             extent.setSystemInfo("Tester", "Ravinder Singh");
         }
+
+        extent.setSystemInfo("Browser", browserName);
         return extent;
     }
 }
