@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -59,6 +60,17 @@ public class ProjectDetailPage {
     private final By breadcrumbLink = By.xpath("//a[contains(@href, 'location_name=Jumeirah Beach Residence') and contains(text(), 'Jumeirah Beach Residence')]");
     private final By projectCountText = By.xpath("//p[contains(@class, 'chakra-text') and contains(text(), 'project')]");
 
+    // Locators to Handle V-3 to V-2 Direct login.
+    private final By clickSwitchToOriginalPlatform = By.xpath("//div[./p[text()='Switch to Original Platform']]");
+    
+    //Locators to handle V-2 to V-3 Direct login
+    private final By newsSlidingBar = By.xpath("//div[@class='ti_content']");
+    private final By clickPmiqMenu = By.xpath("//button[contains(@class, 'dropbtn') and contains(text(), 'PMiQ')]");
+    private final By clickProjectSearchMenu = By.xpath("//div[@class='dropdown-content']//a[normalize-space(text())='Project Search [BETA]']");
+
+    
+    //
+    
     /**
      * Opens the Project Detail Page by searching for a project and navigating to its detail view.
      * Includes robust waiting for page loads and tab switching.
@@ -427,6 +439,39 @@ public class ProjectDetailPage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
+    // Action Method for V-2 to V-3 Direct login.
+    
+    public void clickSwitchToOriginalPlatformLink() {
+        wait.until(ExpectedConditions.elementToBeClickable(clickSwitchToOriginalPlatform)).click();
+        System.out.println("Clicked on 'Switch to Original Platform' link.");
+    }
+
+    public boolean isNewsSlidingBarVisible() {
+        waitFor(3000);
+        return !driver.findElements(newsSlidingBar).isEmpty();
+    }
+
+    public void hoverOverPmiqMenu() {
+        WebElement menu = wait.until(ExpectedConditions.visibilityOfElementLocated(clickPmiqMenu));
+        new Actions(driver).moveToElement(menu).perform();
+        System.out.println("Hovered over PMiQ menu.");
+    }
+
+    public void clickProjectSearchBeta() {
+        wait.until(ExpectedConditions.elementToBeClickable(clickProjectSearchMenu)).click();
+        System.out.println("Clicked on Project Search [BETA] under PMiQ menu.");
+    }
+
+    public void waitFor(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    
+    
     /**
      * Utility method to scroll the page to the very top.
      */

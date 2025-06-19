@@ -181,5 +181,130 @@ public class ProjectDetailTest extends BaseTest {
             Assert.fail("Test failed due to exception: " + e.getMessage());
         }
     }
+    // Below Test case is to Handle V-2 to V-3 Direct Login.
+    @Test(priority = 11, description = "Verify redirection to V-2 platform via 'Switch to Original Platform' hyperlink.")
+    public void test11_SwitchToOriginalPlatformAndVerifyV2() {
+        extentTest = extent.createTest("Redirect to V-2 Platform", 
+            "User clicks 'Switch to Original Platform' and verifies V-2 login via news sliding bar.");
+
+        String originalTab = driver.getWindowHandle();
+
+        try {
+            projectDetailPage.clickSwitchToOriginalPlatformLink();
+            projectDetailPage.waitFor(4000); // Allow V-2 platform to load
+
+            // Switch to new tab
+            for (String tab : driver.getWindowHandles()) {
+                if (!tab.equals(originalTab)) {
+                    driver.switchTo().window(tab);
+                    break;
+                }
+            }
+
+            // Validate V-2 page content
+            if (projectDetailPage.isNewsSlidingBarVisible()) {
+                extentTest.pass("✅ User successfully logged into V-2 platform. News sliding bar detected.");
+                System.out.println("✅ User successfully logged into V-2 platform.");
+            } else {
+                extentTest.fail("❌ V-2 platform did not load properly (news sliding bar not found). Closing tab and returning to original.");
+                driver.close(); // Close bad V-2 tab
+                driver.switchTo().window(originalTab); // Back to original
+                Assert.fail("V-2 platform is not displaying correctly.");
+            }
+
+        } catch (Exception e) {
+            extentTest.fail("❌ Error during redirection to V-2: " + e.getMessage());
+            System.err.println("❌ Exception: " + e.getMessage());
+            // Close V-2 tab if open
+            for (String tab : driver.getWindowHandles()) {
+                if (!tab.equals(originalTab)) {
+                    driver.switchTo().window(tab);
+                    driver.close();
+                    break;
+                }
+            }
+            driver.switchTo().window(originalTab); // Back to original
+            Assert.fail("Exception during redirection to V-2: " + e.getMessage());
+        }
+    }
+    
+    // Below Test case is to handle V-3 to V-2 direct Login.
+    
+    @Test(priority = 12, description = "Verify redirection from V-2 to V-3 via PMIQ > Project Search [BETA].")
+    public void test12_PmiqToV3RedirectViaProjectSearch() {
+        extentTest = extent.createTest("PMIQ to V-3 Redirect", 
+            "User hovers PMIQ and clicks Project Search [BETA], verifies redirect to V-3 URL.");
+
+        String originalTab = driver.getWindowHandle(); // V-3 or main tab
+        String v2Tab = null;
+
+        // Identify current V-2 tab
+        for (String tab : driver.getWindowHandles()) {
+            if (!tab.equals(originalTab)) {
+                v2Tab = tab;
+                break;
+            }
+        }
+
+        if (v2Tab == null) {
+            extentTest.fail("❌ No V-2 tab found to continue. Test aborted.");
+            Assert.fail("V-2 tab is missing.");
+            return;
+        }
+
+        try {
+            driver.switchTo().window(v2Tab);
+
+            if (!projectDetailPage.isNewsSlidingBarVisible()) {
+                extentTest.fail("❌ Not on V-2 platform (news sliding bar missing).");
+                Assert.fail("V-2 platform is not active.");
+                return;
+            }
+
+            projectDetailPage.hoverOverPmiqMenu();
+            projectDetailPage.waitFor(1000);
+            projectDetailPage.clickProjectSearchBeta();
+
+            // Switch to new V-3 tab
+            String v3RedirectTab = null;
+            for (String tab : driver.getWindowHandles()) {
+                if (!tab.equals(originalTab) && !tab.equals(v2Tab)) {
+                    v3RedirectTab = tab;
+                    driver.switchTo().window(tab);
+                    break;
+                }
+            }
+
+            projectDetailPage.waitFor(3000);
+            String currentURL = driver.getCurrentUrl();
+
+            if (v3RedirectTab != null && currentURL.contains("/projects/project-search")) {
+                extentTest.pass("✅ Successfully redirected to V-3 Project Search page: " + currentURL);
+                System.out.println("✅ Redirected to V-3 Project Search: " + currentURL);
+            } else {
+                if (v3RedirectTab != null) {
+                    driver.close(); // Close bad tab
+                }
+                driver.switchTo().window(originalTab);
+                extentTest.fail("❌ Redirection to V-3 failed. URL mismatch or tab not opened.");
+                Assert.fail("Failed to redirect from V-2 to V-3.");
+            }
+
+        } catch (Exception e) {
+            extentTest.fail("❌ Exception during V-3 redirect flow: " + e.getMessage());
+            System.err.println("❌ Exception: " + e.getMessage());
+
+            // Attempt tab cleanup and return
+            for (String tab : driver.getWindowHandles()) {
+                if (!tab.equals(originalTab)) {
+                    driver.switchTo().window(tab);
+                    driver.close();
+                }
+            }
+            driver.switchTo().window(originalTab);
+            Assert.fail("Test failed during redirect flow from V-2 to V-3: " + e.getMessage());
+        }
+    }
+    
     
 }

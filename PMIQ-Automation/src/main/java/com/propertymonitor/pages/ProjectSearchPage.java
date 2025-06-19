@@ -2,7 +2,7 @@ package com.propertymonitor.pages;
 
 // No longer extends BaseTest
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver; // <-- Add this import
@@ -139,11 +139,160 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
 
     // Locator for project name on detail page
     //private final By projectDetailName = By.xpath("//p[contains(@class, 'css-o7ov3m') and text()='Habtoor Grand Residences']");
-    
-    // Actions
-    // Removed getCustomWait() - use the 'wait' instance directly
-    // Also, instead of customWait, use 'this.wait' or simply 'wait' in methods.
 
+    // Locator for Onboarding Steps.
+    
+
+    private final By verifyOnboardingTitles = By.xpath("//div[@class='chakra-stack css-1n3g6t4']/h2");
+    private final By onBoardingIcon = By.xpath("//button[@data-test-id='joyride-bulb']");
+
+    private final By exploreButton = By.xpath("//button[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = 'explore']");
+    private final By nextButton = By.xpath("//button[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = 'next']");
+    private final By gotItButton = By.xpath("//button[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = 'got it']");
+    private final By skipButton = By.xpath("//button[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = 'skip']");
+
+    // Locators For News pop-up
+    
+    private final By newsPopup = By.xpath("//section[@role='dialog' and contains(@class, 'chakra-modal__content')]");
+    private final By newsList = By.xpath("//div[@class='chakra-stack css-10tuo4t']");
+    private final By externalNewsButton = By.xpath("//div[contains(@class, 'chakra-modal__body')]//div[contains(@class, 'chakra-stack') and (.//img)]//button[contains(@class, 'chakra-button')]");
+    private final By newsCloseIcon = By.xpath("//button[contains(@class, 'chakra-modal__close-btn')]");
+    private final By newsIcon = By.xpath("//button[@data-test-id='news-button']"); // Adjust if different
+
+    // Actions for Force and Manual Onboarding.
+ // Wait until onboarding title is visible
+    public boolean isOnboardingDialogVisible() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(verifyOnboardingTitles));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public void clickOnboardingIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(onBoardingIcon)).click();
+    }
+
+    public void clickExploreButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(exploreButton)).click();
+    }
+
+    public void clickNextButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(nextButton)).click();
+    }
+
+    public void clickGotItButton() {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+            // Wait for "Got it" button to be visible and enabled
+            WebElement gotItBtn = shortWait.until(ExpectedConditions.visibilityOfElementLocated(gotItButton));
+
+            // Extra check: wait until it's actually clickable
+            wait.until(ExpectedConditions.elementToBeClickable(gotItBtn));
+
+            // Scroll into view and use JS click
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", gotItBtn);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", gotItBtn);
+
+            waitFor(1500); // pause to allow dialog to close
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Failed to click 'Got it' button: " + e.getMessage());
+        }
+    }
+
+    public void clickSkipButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(skipButton)).click();
+    }
+
+    public String getCurrentOnboardingStepTitle() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(verifyOnboardingTitles)).getText();
+    }
+    
+    // Action for the News Pop-up.
+    public boolean isNewsDialogVisible() {
+        return !driver.findElements(newsPopup).isEmpty();
+    }
+
+    public boolean isNewsListPresent() {
+        waitForAnySpinnerToDisappear(); // wait for spinner to go before checking content
+        return !driver.findElements(newsList).isEmpty();
+    }
+    
+    public void waitForNewsToLoad() {
+        try {
+            // Wait until the spinner disappears (invisible or not present)
+            wait.until(ExpectedConditions.or(
+                    ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".chakra-spinner")),
+                    ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".chakra-spinner")))
+            ));
+            System.out.println("✅ Spinner is gone.");
+
+            // Then wait for either:
+            // 1. News list appears, OR
+            // 2. A message or condition showing "no news" is available
+            wait.until(ExpectedConditions.or(
+                    ExpectedConditions.presenceOfElementLocated(newsList),
+                    ExpectedConditions.presenceOfElementLocated(newsCloseIcon) // at least ensure pop-up remains
+            ));
+
+            System.out.println("✅ News content (or fallback element) detected after spinner.");
+        } catch (Exception e) {
+            System.err.println("❌ Failed while waiting for News popup content: " + e.getMessage());
+        }
+    }
+    
+    public void waitUntilNewsListRenders() {
+        try {
+            // First wait for the loader to disappear (same logic)
+            wait.until(ExpectedConditions.or(
+                ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".chakra-spinner")),
+                ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".chakra-spinner")))
+            ));
+            System.out.println("✅ Spinner is gone.");
+
+            // Then strictly wait for the news list container to be VISIBLE
+            wait.until(ExpectedConditions.visibilityOfElementLocated(newsList));
+            System.out.println("✅ News list is visible.");
+        } catch (Exception e) {
+            System.err.println("❌ News list did not render properly: " + e.getMessage());
+        }
+    }
+    
+
+    public boolean isExternalNewsButtonPresent() {
+        return !driver.findElements(externalNewsButton).isEmpty();
+    }
+
+    public void clickCloseNewsPopup() {
+        wait.until(ExpectedConditions.elementToBeClickable(newsCloseIcon)).click();
+    }
+
+    public void clickNewsIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(newsIcon)).click();
+    }
+
+    public void clickExternalNewsButtonAndVerifyTab() {
+        String originalTab = driver.getWindowHandle();
+        wait.until(ExpectedConditions.elementToBeClickable(externalNewsButton)).click();
+
+        waitFor(1000); // Optional: small buffer for new tab to open
+
+        for (String tab : driver.getWindowHandles()) {
+            if (!tab.equals(originalTab)) {
+                driver.switchTo().window(tab);
+                waitFor(2000); // Let the external news page load
+                driver.close();
+                break;
+            }
+        }
+        driver.switchTo().window(originalTab);
+    }
+    
+    
+    
     public void verifyProjectSearchPageURL(String expectedBaseUrl) {
         // Wait for URL to contain base path like "/projects/project-search"
         wait.until(ExpectedConditions.urlContains(expectedBaseUrl));
@@ -497,7 +646,19 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         return resultMap;
     }
     
+    // handel Spinner method
     
+    public void waitForAnySpinnerToDisappear() {
+        try {
+            wait.until(ExpectedConditions.or(
+                    ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".chakra-spinner")),
+                    ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".chakra-spinner")))
+            ));
+            System.out.println("Spinner check: Spinner disappeared or was not present.");
+        } catch (Exception e) {
+            System.err.println("Spinner might not have disappeared within the timeout or an error occurred: " + e.getMessage());
+        }
+    }
     
     
     // Generic method to click outside to close dropdowns/calendars
