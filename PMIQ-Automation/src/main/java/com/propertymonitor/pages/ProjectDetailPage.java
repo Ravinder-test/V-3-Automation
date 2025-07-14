@@ -74,7 +74,6 @@ public class ProjectDetailPage {
     /**
      * Opens the Project Detail Page by searching for a project and navigating to its detail view.
      * Includes robust waiting for page loads and tab switching.
-     * MODIFIED: Added defensive window handling at the start.
      */
     public void openProjectDetailPage() {
         System.out.println("[INFO] Attempting to open Project Detail Page...");

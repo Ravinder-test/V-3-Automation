@@ -81,7 +81,7 @@ public class ProjectSearchTest extends BaseTest {
             test2_CompleteOnboardingSteps(); // Launch manually
             projectSearchPage.waitFor(2000); // wait for news
             test3_HandleNewsPopup();
-            test4_SkipOnboardingSteps(); // Optional as you did complete onboarding already
+            
         }
     }
     
@@ -299,75 +299,152 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ The project count successfully updated after clearing the location filter.");
     }
 
-    // Click and select Apartment Unit type and verify projects list updated or not
-    @Test(priority = 7, description = "Verifies that selecting 'Apartment' as a unit type filters the project list correctly.")
-    public void test7_SelectApartmentUnitType() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting 'Apartment': " + before);
+    @Test(priority = 7, description = "Verifies that selecting and unselecting each Unit Type (Apartment, Villa, Townhouse) updates the project count correctly.")
+    public void test7_VerifyAllUnitTypesFiltering() {
+        // Define unit types and their locators
+        // Using LinkedHashMap to maintain order if desired, though not strictly necessary for this test.
+        LinkedHashMap<String, By> unitTypes = new LinkedHashMap<>();
+        unitTypes.put("Apartment", projectSearchPage.apartmentCheckboxLabel);
+        unitTypes.put("Villa", projectSearchPage.villaCheckboxLabel);
+        unitTypes.put("Townhouse", projectSearchPage.townhouseCheckboxLabel);
 
-        projectSearchPage.toggleApartmentCheckbox(); // Selects Apartment and clicks outside
-        projectSearchPage.waitFor(3000);
+        boolean allFiltersPassed = true; // Flag to track overall test result
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting 'Apartment': " + after);
+        for (Map.Entry<String, By> entry : unitTypes.entrySet()) {
+            String unitTypeName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Apartment'.");
-        extentTest.pass("✅ The project count updated after selecting 'Apartment' unit type.");
+            // --- Step 1: Select the Unit Type and Verify Update ---
+            extentTest.info("Attempting to select Unit Type: '" + unitTypeName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + unitTypeName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.toggleUnitType(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + unitTypeName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + unitTypeName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + unitTypeName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + unitTypeName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+                // Optionally re-throw or break if a critical error occurs, or continue to next unit type
+            }
+
+            // --- Step 2: Unselect the Unit Type and Verify Update ---
+            extentTest.info("Attempting to unselect Unit Type: '" + unitTypeName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + unitTypeName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleUnitType(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + unitTypeName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + unitTypeName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + unitTypeName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + unitTypeName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // After each pair of select/unselect, ensure the filter is cleared
+
+        }
+        Assert.assertTrue(allFiltersPassed, "❌ One or more unit type filter operations failed to update the project count as expected.");
     }
 
-    // Click and Uncheck Aparment unit type and verify result are updated or not.
-    @Test(priority = 8, description = "Verifies that unselecting 'Apartment' unit type updates the project list.")
-    public void test8_UnselectApartmentUnitType() {
-        // Assume 'Apartment' is selected from a previous test or a setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting 'Apartment': " + before);
+    @Test(priority = 8, description = "Verifies that selecting and unselecting each Sale Status (Upcoming, Pre-Sale, On Sale, Sold Out) updates the project count correctly.")
+    public void test8_VerifyAllSaleStatusFiltering() {
+        // Define sale statuses and their locators
+        LinkedHashMap<String, By> saleStatuses = new LinkedHashMap<>();
+        saleStatuses.put("Upcoming", projectSearchPage.upcomingCheckboxLabel);
+        saleStatuses.put("Pre-Sale (EOI)", projectSearchPage.preSaleEoiCheckboxLabel);
+        saleStatuses.put("On Sale", projectSearchPage.onSaleCheckboxLabel);
+        saleStatuses.put("Sold Out", projectSearchPage.soldOutCheckboxLabel);
 
-        projectSearchPage.toggleApartmentCheckbox(); // Unselects Apartment and clicks outside
-        projectSearchPage.waitFor(3000);
+        boolean allFiltersPassed = true; // Flag to track overall test result
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting 'Apartment': " + after);
+        for (Map.Entry<String, By> entry : saleStatuses.entrySet()) {
+            String statusName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'Apartment'.");
-        extentTest.pass("✅ The project count updated after unselecting 'Apartment' unit type.");
-    }
+            // --- Step 1: Select the Sale Status and Verify Update ---
+            extentTest.info("Attempting to select Sale Status: '" + statusName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + statusName + "': " + beforeSelectionCount);
 
-    // Click and Unselect upcoming sale status and verify results are updated or not.
-    @Test(priority = 9, description = "Verifies that unchecking 'Upcoming' sale status filters the project list.")
-    public void test9_UncheckUpcomingSaleStatus() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unchecking 'Upcoming' status: " + before);
+            try {
+                projectSearchPage.toggleSaleStatus(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
 
-        projectSearchPage.toggleUpcomingSaleStatus(); // Unchecks Upcoming and clicks outside
-        projectSearchPage.waitFor(3000);
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + statusName + "': " + afterSelectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unchecking 'Upcoming': " + after);
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + statusName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + statusName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + statusName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+                // Optionally re-throw or break if a critical error occurs, or continue to next status
+            }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unchecking 'Upcoming' sale status.");
-        extentTest.pass("✅ The project count updated after unchecking 'Upcoming' status.");
-    }
+            // --- Step 2: Unselect the Sale Status and Verify Update ---
+            extentTest.info("Attempting to unselect Sale Status: '" + statusName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + statusName + "': " + beforeUnselectionCount);
 
-    // Click and Select back upcoming sale status and verify results are updated or not.
-    @Test(priority = 10, description = "Verifies that re-selecting 'Upcoming' sale status updates the project list.")
-    public void test10_SelectUpcomingSaleStatus() {
-        // Assume 'Upcoming' is unchecked from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before re-selecting 'Upcoming' status: " + before);
+            try {
+                projectSearchPage.toggleSaleStatus(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
 
-        projectSearchPage.toggleUpcomingSaleStatus(); // Selects Upcoming and clicks outside
-        projectSearchPage.waitFor(3000);
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + statusName + "': " + afterUnselectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after re-selecting 'Upcoming': " + after);
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + statusName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + statusName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + statusName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after re-selecting 'Upcoming'.");
-        extentTest.pass("✅ The project count updated after re-selecting 'Upcoming' status.");
+        // Final assertion for the entire test method
+        Assert.assertTrue(allFiltersPassed, "❌ One or more sale status filter operations failed to update the project count as expected.");
     }
 
     // Click on the developer and search for "Aark Developer" and select it, then verify project is updated or not
-    @Test(priority = 11, description = "Verifies that selecting and then unselecting a developer changes the project count correctly.")
-    public void test11_SearchDeveloperProjectCount() {
+    @Test(priority = 9, description = "Verifies that selecting and then unselecting a developer changes the project count correctly.")
+    public void test9_SearchDeveloperProjectCount() {
         // Part 1: Select Developer and Verify
         String beforeSelection = projectSearchPage.getProjectCount();
         extentTest.info("Project count before selecting a developer: " + beforeSelection);
@@ -396,8 +473,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // Click on the Advance filter and Verify Project count is showing.
-    @Test(priority = 12, description = "Verifies that clicking 'Advance Filter' opens the advanced filter section.")
-    public void test12_ClickAdvanceFilter() {
+    @Test(priority = 10, description = "Verifies that clicking 'Advance Filter' opens the advanced filter section.")
+    public void test10_ClickAdvanceFilter() {
         projectSearchPage.clickAdvanceFilter();
         projectSearchPage.waitFor(1000); // Allow time for the drawer to appear
 
@@ -405,108 +482,224 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ The Advance Filter section is visible as expected.");
     }
 
-    // Click on the Construction Status filter and select Completed filter then verify project count updated or not
-    @Test(priority = 13, description = "Verifies that selecting 'Completed' for construction status filters the project list.")
-    public void test13_SelectConstructionStatusCompleted() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting 'Completed' status: " + before);
+    // Select and unselect All Construction Status filter and verify project count updated or not
+    @Test(priority = 11, description = "Verifies that selecting and unselecting each Construction Status (Upcoming, Under Construction, On Hold, Cancelled, Completed, Handed Over) updates the project count correctly.")
+    public void test11_VerifyAllConstructionStatusFiltering() {
+        LinkedHashMap<String, By> constructionStatuses = new LinkedHashMap<>();
+        constructionStatuses.put("Upcoming", projectSearchPage.upcomingStatusCheckboxLabel);
+        constructionStatuses.put("Under Construction", projectSearchPage.underConstructionStatusCheckboxLabel);
+        constructionStatuses.put("On Hold", projectSearchPage.onHoldStatusCheckboxLabel);
+        constructionStatuses.put("Cancelled", projectSearchPage.cancelledStatusCheckboxLabel);
+        constructionStatuses.put("Completed", projectSearchPage.completedStatusCheckboxLabel);
+        constructionStatuses.put("Handed Over", projectSearchPage.handedOverStatusCheckboxLabel);
 
-        projectSearchPage.toggleConstructionStatusCompleted(); // Selects "Completed" and clicks outside
-        projectSearchPage.waitFor(3000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting 'Completed' status: " + after);
+        for (Map.Entry<String, By> entry : constructionStatuses.entrySet()) {
+            String statusName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Completed' construction status.");
-        extentTest.pass("✅ The project count updated after selecting 'Completed' construction status.");
+            // --- Step 1: Select the Construction Status and Verify Update ---
+            extentTest.info("Attempting to select Construction Status: '" + statusName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + statusName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.toggleConstructionStatus(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + statusName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + statusName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + statusName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + statusName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // --- Step 2: Unselect the Construction Status and Verify Update ---
+            extentTest.info("Attempting to unselect Construction Status: '" + statusName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before unselecting '" + statusName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleConstructionStatus(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + statusName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + statusName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + statusName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + statusName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more construction status filter operations failed to update the project count as expected.");
     }
 
-    // Unselect Construction Status (Completed) for next test
-    @Test(priority = 14, description = "Verifies that unselecting 'Completed' for construction status updates the project list.")
-    public void test14_UnselectConstructionStatusCompleted() {
-        // Assume 'Completed' is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting 'Completed' status: " + before);
+    // Click and select multiple completion date options and verify projects count updated
+    @Test(priority = 12, description = "Verifies that selecting each Actual Completion Date option updates the project count, and that clearing the filter also updates the count.")
+    public void test12_VerifyCompletionDateFilteringAndClear() {
+        LinkedHashMap<String, By> completionDateOptions = new LinkedHashMap<>();
+        completionDateOptions.put("Completed", projectSearchPage.completedDateOption);
+        completionDateOptions.put("2025 (upcoming)", projectSearchPage.year2025UpcomingDateOption);
+        completionDateOptions.put("2026", projectSearchPage.year2026DateOption);
+        completionDateOptions.put("2027", projectSearchPage.year2027DateOption);
+        completionDateOptions.put("2028 and later", projectSearchPage.year2028AndLaterDateOption);
 
-        projectSearchPage.toggleConstructionStatusCompleted(); // Unselects "Completed" and clicks outside
-        projectSearchPage.waitFor(3000);
+        boolean allFiltersPassed = true;
+        // String initialGlobalCount = projectSearchPage.getProjectCount(); // Uncomment if you need to verify against true initial unfiltered count after reset.
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting 'Completed' status: " + after);
+        for (Map.Entry<String, By> entry : completionDateOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'Completed' construction status.");
-        extentTest.pass("✅ The project count updated after unselecting 'Completed' construction status.");
-    }
+            extentTest.info("Attempting to select Actual Completion Date option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
 
-    // Click on the calendar filter and select 2025 upcoming option
-    @Test(priority = 15, description = "Verifies that selecting '2025 (upcoming)' as a completion date filters the project list.")
-    public void test15_SelectCompletionDate2025Upcoming() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting a completion date: " + before);
+            try {
+                projectSearchPage.selectCompletionDateOption(locator); // Clicks dropdown, selects option, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
 
-        projectSearchPage.selectCompletionDate2025Upcoming(); // Selects 2025 (upcoming) and clicks outside
-        projectSearchPage.waitFor(3000);
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting '2025 (upcoming)': " + after);
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting '2025 (upcoming)' option.");
-        extentTest.pass("✅ The project count updated after selecting '2025 (upcoming)' option.");
-    }
+        // --- Step: Clear the Selection and Verify Update ---
+        extentTest.info("Attempting to clear Actual Completion Date selection.");
+        String beforeClearCount = projectSearchPage.getProjectCount(); // This should be the count after the last selection
+        extentTest.info("Project count before clearing completion date filter: " + beforeClearCount);
 
-    // Click on the Close icon to Reset the Selected Completion date and verify project count
-    @Test(priority = 16, description = "Verifies that clearing the selected completion date updates the project list.")
-    public void test16_ClearCompletionDate() {
-        // Assume a completion date is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before clearing the completion date: " + before);
+        try {
+            projectSearchPage.clearSelectedCompletionDate(); // Clicks the clear icon
+            projectSearchPage.waitFor(2000); // Allow time for filter to reset
 
-        projectSearchPage.clearCompletionDate();
-        projectSearchPage.waitFor(2000);
+            String afterClearCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count after clearing completion date filter: " + afterClearCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after clearing the completion date: " + after);
+            if (!afterClearCount.equals(beforeClearCount)) { // Verifies count changed after clearing
+                extentTest.pass("✅ Project count updated after clearing the completion date filter.");
+            } else {
+                extentTest.fail("❌ Project count did NOT change after clearing the completion date filter. (Expected update)");
+                allFiltersPassed = false;
+            }
+            // Optional: If you want to assert it returns to the *absolute initial count* of the page load
+            // Assert.assertEquals(afterClearCount, initialGlobalCount, "❌ Project count did not revert to initial count after clearing.");
+        } catch (Exception e) {
+            String errorMsg = "❌ Failed to clear completion date filter due to: " + e.getMessage();
+            extentTest.fail(errorMsg);
+            System.out.println(errorMsg);
+            allFiltersPassed = false;
+        }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after clearing the completion date.");
-        extentTest.pass("✅ The project count updated after clearing the completion date.");
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Actual Completion Date filter operations or clear operation failed to update the project count as expected.");
     }
 
     //Click on the Sales start date field and select the last 90 days option and verify project count
-    @Test(priority = 17, description = "Verifies that selecting 'Last 90 days' for sales start date filters the project list.")
-    public void test17_SelectSalesStartDateLast90Days() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting sales start date: " + before);
+    @Test(priority = 13, description = "Verifies that selecting each Sales Start Date option updates the project count, and that clearing the filter also updates the count.")
+    public void test13_VerifySalesStartDateFilteringAndClear() {
+        LinkedHashMap<String, By> salesStartDateOptions = new LinkedHashMap<>();
+        salesStartDateOptions.put("Last 7 days", projectSearchPage.last7DaysOption);
+        salesStartDateOptions.put("Last 30 days", projectSearchPage.last30DaysOption);
+        salesStartDateOptions.put("Last 90 days", projectSearchPage.last90DaysOption);
+        salesStartDateOptions.put("Next 7 days", projectSearchPage.next7DaysOption);
+        salesStartDateOptions.put("Next 30 days", projectSearchPage.next30DaysOption);
 
-        projectSearchPage.selectSalesStartDateLast90Days(); // Selects Last 90 Days and clicks outside
-        projectSearchPage.waitFor(3000);
+        boolean allFiltersPassed = true;
+        // String initialGlobalCount = projectSearchPage.getProjectCount(); // Uncomment if you need to verify against true initial unfiltered count after reset.
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting 'Last 90 days' sales start date: " + after);
+        for (Map.Entry<String, By> entry : salesStartDateOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Last 90 days' sales start date.");
-        extentTest.pass("✅ The project count updated after selecting 'Last 90 days' sales start date.");
-    }
+            extentTest.info("Attempting to select Sales Start Date option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
 
-    // Click on the close icon to Reset the sales start date and verify project count.
-    @Test(priority = 18, description = "Verifies that clearing the sales start date updates the project list.")
-    public void test18_ClearSalesStartDate() {
-        // Assume a sales start date is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before clearing the sales start date: " + before);
+            try {
+                projectSearchPage.selectSalesStartDateOption(locator); // Clicks dropdown, selects option, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
 
-        projectSearchPage.clearSalesStartDate();
-        projectSearchPage.waitFor(2000);
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after clearing the sales start date: " + after);
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after clearing the sales start date.");
-        extentTest.pass("✅ The project count updated after clearing the sales start date.");
+        // --- Step: Clear the Selection and Verify Update ---
+        extentTest.info("Attempting to clear Sales Start Date selection.");
+        String beforeClearCount = projectSearchPage.getProjectCount(); // This should be the count after the last selection
+        extentTest.info("Project count before clearing sales start date filter: " + beforeClearCount);
+
+        try {
+            projectSearchPage.clearSelectedCompletionDate(); // Clicks the clear icon
+            projectSearchPage.waitFor(2000); // Allow time for filter to reset
+
+            String afterClearCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count after clearing sales start date filter: " + afterClearCount);
+
+            if (!afterClearCount.equals(beforeClearCount)) { // Verifies count changed after clearing
+                extentTest.pass("✅ Project count updated after clearing the sales start date filter.");
+            } else {
+                extentTest.fail("❌ Project count did NOT change after clearing the sales start date filter. (Expected update)");
+                allFiltersPassed = false;
+            }
+            // Optional: If you want to assert it returns to the *absolute initial count* of the page load
+            // Assert.assertEquals(afterClearCount, initialGlobalCount, "❌ Project count did not revert to initial count after clearing.");
+        } catch (Exception e) {
+            String errorMsg = "❌ Failed to clear sales start date filter due to: " + e.getMessage();
+            extentTest.fail(errorMsg);
+            System.out.println(errorMsg);
+            allFiltersPassed = false;
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Sales Start Date filter operations or clear operation failed to update the project count as expected.");
     }
 
     // On the Completion Percentage input Min and Max values and Verify the Updated project count
-    @Test(priority = 19, description = "Verifies that entering minimum and maximum completion percentage values filters the project list.")
-    public void test19_InputMinMaxCompletionPercentage() {
+    @Test(priority = 14, description = "Verifies that entering minimum and maximum completion percentage values filters the project list.")
+    public void test14_InputMinMaxCompletionPercentage() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before setting completion percentage range: " + before);
 
@@ -521,8 +714,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // Reset the Min and Max Completion percentage count
-    @Test(priority = 20, description = "Verifies that resetting the completion percentage range updates the project list.")
-    public void test20_ResetMinMaxCompletionPercentage() {
+    @Test(priority = 15, description = "Verifies that resetting the completion percentage range updates the project list.")
+    public void test15_ResetMinMaxCompletionPercentage() {
         // Assume completion percentage is set from a previous test or setup step
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before resetting completion percentage: " + before);
@@ -538,41 +731,82 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // Select Bedroom and Verify projects count updated or not
-    @Test(priority = 21, description = "Verifies that selecting '5 Bedrooms' filters the project list.")
-    public void test21_SelectBedroomLabel5() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting '5 Bedrooms': " + before);
+    @Test(priority = 16, description = "Verifies that selecting and unselecting each Bedroom option (Studio, 1-7, 8+) updates the project count correctly.")
+    public void test16_VerifyBedroomFiltering() {
+        LinkedHashMap<String, By> bedroomOptions = new LinkedHashMap<>();
+        bedroomOptions.put("Studio", projectSearchPage.studioBedroomOption);
+        bedroomOptions.put("1", projectSearchPage.oneBedroomOption);
+        bedroomOptions.put("2", projectSearchPage.twoBedroomOption);
+        bedroomOptions.put("3", projectSearchPage.threeBedroomOption);
+        bedroomOptions.put("4", projectSearchPage.fourBedroomOption);
+        bedroomOptions.put("5", projectSearchPage.fiveBedroomOption);
+        bedroomOptions.put("6", projectSearchPage.sixBedroomOption);
+        bedroomOptions.put("7", projectSearchPage.sevenBedroomOption);
+        bedroomOptions.put("8+", projectSearchPage.eightPlusBedroomOption);
 
-        projectSearchPage.toggleBedroom5();
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting '5 Bedrooms': " + after);
+        for (Map.Entry<String, By> entry : bedroomOptions.entrySet()) {
+            String bedroomName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting '5 Bedrooms'.");
-        extentTest.pass("✅ The project count updated after selecting '5 Bedrooms'.");
-    }
+            // --- Step 1: Select the Bedroom option and Verify Update ---
+            extentTest.info("Attempting to select Bedroom option: '" + bedroomName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + bedroomName + "': " + beforeSelectionCount);
 
-    // unselect Bedroom label and verify projects count updated or not.
-    @Test(priority = 22, description = "Verifies that unselecting '5 Bedrooms' updates the project list.")
-    public void test22_UnselectBedroomLabel5() {
-        // Assume '5 Bedrooms' is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting '5 Bedrooms': " + before);
+            try {
+                projectSearchPage.toggleBedroomOption(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
 
-        projectSearchPage.toggleBedroom5(); // Clicks again to unselect
-        projectSearchPage.waitFor(2000);
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + bedroomName + "': " + afterSelectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting '5 Bedrooms': " + after);
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + bedroomName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + bedroomName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + bedroomName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting '5 Bedrooms'.");
-        extentTest.pass("✅ The project count updated after unselecting '5 Bedrooms'.");
+            // --- Step 2: Unselect the Bedroom option and Verify Update ---
+            extentTest.info("Attempting to unselect Bedroom option: '" + bedroomName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + bedroomName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleBedroomOption(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + bedroomName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + bedroomName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + bedroomName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + bedroomName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Bedroom filter operations failed to update the project count as expected.");
     }
 
     // User should input Min and Max value on the Built up area and verify Projects Count updated or not.
-    @Test(priority = 23, description = "Verifies that entering minimum and maximum built-up area values filters the project list.")
-    public void test23_InputBuiltupAreaValue() {
+    @Test(priority = 17, description = "Verifies that entering minimum and maximum built-up area values filters the project list.")
+    public void test17_InputBuiltupAreaValue() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before setting built-up area range: " + before);
 
@@ -587,8 +821,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // user should reset the builtup area and verify projects count are updated or not
-    @Test(priority = 24, description = "Verifies that resetting the built-up area range updates the project list.")
-    public void test24_ResetBuiltupAreaValue() {
+    @Test(priority = 18, description = "Verifies that resetting the built-up area range updates the project list.")
+    public void test18_ResetBuiltupAreaValue() {
         // Assume built-up area is set from a previous test or setup step
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before resetting built-up area: " + before);
@@ -604,8 +838,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // User should input the Min and Max values on the plot area and verify projects count are updated or not.
-    @Test(priority = 25, description = "Verifies that entering minimum and maximum plot area values filters the project list.")
-    public void test25_InputPlotAreaValue() {
+    @Test(priority = 19, description = "Verifies that entering minimum and maximum plot area values filters the project list.")
+    public void test19_InputPlotAreaValue() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before setting plot area range: " + before);
 
@@ -620,8 +854,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // user should reset the Plot area and verify projects count are updated or not
-    @Test(priority = 26, description = "Verifies that resetting the plot area range updates the project list.")
-    public void test26_ResetPlotAreaValue() {
+    @Test(priority = 20, description = "Verifies that resetting the plot area range updates the project list.")
+    public void test20_ResetPlotAreaValue() {
         // Assume plot area is set from a previous test or setup step
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before resetting plot area: " + before);
@@ -637,8 +871,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // User should enter the Min and Max down payment percentage and verify project count updated or not
-    @Test(priority = 27, description = "Verifies that entering minimum and maximum down payment percentage values filters the project list.")
-    public void test27_InputDownPaymentValue() {
+    @Test(priority = 21, description = "Verifies that entering minimum and maximum down payment percentage values filters the project list.")
+    public void test21_InputDownPaymentValue() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before setting down payment percentage: " + before);
 
@@ -653,8 +887,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // User should Reset the Min and Max down payment percentage and verify project count updated or not
-    @Test(priority = 28, description = "Verifies that resetting the down payment percentage range updates the project list.")
-    public void test28_ResetDownPaymentValue() {
+    @Test(priority = 22, description = "Verifies that resetting the down payment percentage range updates the project list.")
+    public void test22_ResetDownPaymentValue() {
         // Assume down payment percentage is set from a previous test or setup step
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before resetting down payment percentage: " + before);
@@ -669,75 +903,145 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ The project count updated after resetting down payment percentage.");
     }
 
-    // User should click on the Payment plan drop-down and select the 'On Completion' option and verify Results are updated or not
-    @Test(priority = 29, description = "Verifies that selecting 'On Completion' payment plan filters the project list.")
-    public void test29_SelectPaymentPlanOnCompletion() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting payment plan: " + before);
+    // User should select Multiple Payment plan verify Results are updated or not
+    @Test(priority = 23, description = "Verifies that selecting and unselecting each Payment Plan option (On Completion, Post Handover) updates the project count correctly.")
+    public void test23_VerifyPaymentPlanFiltering() {
+        LinkedHashMap<String, By> paymentPlanOptions = new LinkedHashMap<>();
+        paymentPlanOptions.put("On Completion", projectSearchPage.onCompletionOption);
+        paymentPlanOptions.put("Post Handover", projectSearchPage.postHandoverOption);
 
-        projectSearchPage.togglePaymentPlanOnCompletion(); // Selects On Completion and clicks outside
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting 'On Completion' payment plan: " + after);
+        for (Map.Entry<String, By> entry : paymentPlanOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'On Completion' payment plan.");
-        extentTest.pass("✅ The project count updated after selecting 'On Completion' payment plan.");
+            // --- Step 1: Select the Payment Plan option and Verify Update ---
+            extentTest.info("Attempting to select Payment Plan option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.togglePaymentPlanOption(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // --- Step 2: Unselect the Payment Plan option and Verify Update ---
+            extentTest.info("Attempting to unselect Payment Plan option: '" + optionName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + optionName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.togglePaymentPlanOption(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + optionName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Payment Plan filter operations failed to update the project count as expected.");
     }
 
-    // User should click on the Payment plan drop-down and Unselect the 'On Completion' option and verify Results are updated or not
-    @Test(priority = 30, description = "Verifies that unselecting 'On Completion' payment plan updates the project list.")
-    public void test30_UnselectPaymentPlanOnCompletion() {
-        // Assume 'On Completion' payment plan is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting payment plan: " + before);
+    // Below Test case is for selecting multiple DLD tranfer percentage.
+    @Test(priority = 24, description = "Verifies that selecting and unselecting each DLD transfer fee option (0%, 50%, 100%) updates the project count correctly.")
+    public void test24_VerifyDldTransferPercent() {
+        LinkedHashMap<String, By> dldTransferOptions = new LinkedHashMap<>();
+        dldTransferOptions.put("0%", projectSearchPage.selectZeroPercentageOption);
+        dldTransferOptions.put("50%", projectSearchPage.selectFiftyPercentageOption);
+        dldTransferOptions.put("100%", projectSearchPage.selectHundredPercentageOption);
 
-        projectSearchPage.togglePaymentPlanOnCompletion(); // Unselects On Completion and clicks outside
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting payment plan: " + after);
+        for (Map.Entry<String, By> entry : dldTransferOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'On Completion' payment plan.");
-        extentTest.pass("✅ The project count updated after unselecting 'On Completion' payment plan.");
+            // --- Step 1: Select the DLD transfer option and Verify Update ---
+            extentTest.info("Attempting to select DLD transfer percentage option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.toggleDldTransferPercent(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // --- Step 2: Unselect the DLD transfer Percentage Options and Verify Update ---
+            extentTest.info("Attempting to unselect Payment Plan option: '" + optionName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + optionName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleDldTransferPercent(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + optionName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more DLD transfer percenntage operations failed to update the project count as expected.");
     }
 
-    // User should click and select the DLD transfer Fee of 50% and verify projects count Updated or not.
-    @Test(priority = 31, description = "Verifies that selecting '50%' DLD transfer fee filters the project list.")
-    public void test31_SelectDldTransfer50Percent() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting DLD transfer fee: " + before);
-
-        projectSearchPage.toggleDldTransfer50Percent(); // Selects 50% DLD transfer and clicks outside
-        projectSearchPage.waitFor(2000);
-
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting '50%' DLD transfer fee: " + after);
-
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting '50%' DLD transfer fee.");
-        extentTest.pass("✅ The project count updated after selecting '50%' DLD transfer fee.");
-    }
-
-    // User should click and unselect the DLD transfer Fee of 50% and verify projects count Updated or not.
-    @Test(priority = 32, description = "Verifies that unselecting '50%' DLD transfer fee updates the project list.")
-    public void test32_UnselectDldTransfer50Percent() {
-        // Assume '50%' DLD transfer fee is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting DLD transfer fee: " + before);
-
-        projectSearchPage.toggleDldTransfer50Percent(); // Unselects 50% DLD transfer and clicks outside
-        projectSearchPage.waitFor(2000);
-
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting DLD transfer fee: " + after);
-
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting '50%' DLD transfer fee.");
-        extentTest.pass("✅ The project count updated after unselecting '50%' DLD transfer fee.");
-    }
 
     // User should enter the Min and Max broker commission and verify project count updated or not
-    @Test(priority = 33, description = "Verifies that entering minimum and maximum broker commission values filters the project list.")
-    public void test33_InputBrokerCommissionValue() {
+    @Test(priority = 25, description = "Verifies that entering minimum and maximum broker commission values filters the project list.")
+    public void test25_InputBrokerCommissionValue() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before setting broker commission: " + before);
 
@@ -752,8 +1056,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // User should Reset the Min and Max broker commission percentage and verify project count updated or not
-    @Test(priority = 34, description = "Verifies that resetting the broker commission range updates the project list.")
-    public void test34_ResetBrokerCommissionValue() {
+    @Test(priority = 26, description = "Verifies that resetting the broker commission range updates the project list.")
+    public void test26_ResetBrokerCommissionValue() {
         // Assume broker commission is set from a previous test or setup step
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before resetting broker commission: " + before);
@@ -769,140 +1073,257 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // User should click on the height class and select Mid Rise option and then verify project count is updated or not.
-    @Test(priority = 35, description = "Verifies that selecting 'Mid-Rise' height class filters the project list.")
-    public void test35_SelectHeightClassMidRise() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting height class: " + before);
+    @Test(priority = 27, description = "Verifies that selecting and unselecting each Height Class option (Low-Rise, Mid-Rise, High-Rise, Skyscraper, Single Family) updates the project count correctly.")
+    public void test27_VerifyHeightClassFiltering() {
+        LinkedHashMap<String, By> heightClassOptions = new LinkedHashMap<>();
+        heightClassOptions.put("Low-Rise (1-4 floors)", projectSearchPage.lowRiseOption);
+        heightClassOptions.put("Mid-Rise (5-12 floors)", projectSearchPage.midRiseOption);
+        heightClassOptions.put("High-Rise (13-39 floors)", projectSearchPage.highRiseOption);
+        heightClassOptions.put("Skyscraper (40 floors+)", projectSearchPage.skyscraperOption);
+        heightClassOptions.put("Single Family (Villa/Townhouse)", projectSearchPage.singleFamilyOption);
 
-        projectSearchPage.toggleHeightClassMidRise(); // Selects Mid-Rise and clicks outside
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting 'Mid-Rise' height class: " + after);
+        for (Map.Entry<String, By> entry : heightClassOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Mid-Rise' option.");
-        extentTest.pass("✅ The project count updated after selecting 'Mid-Rise' option.");
+            // --- Step 1: Select the Height Class option and Verify Update ---
+            extentTest.info("Attempting to select Height Class option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.toggleHeightClassOption(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // --- Step 2: Unselect the Height Class option and Verify Update ---
+            extentTest.info("Attempting to unselect Height Class option: '" + optionName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + optionName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleHeightClassOption(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + optionName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Height Class filter operations failed to update the project count as expected.");
     }
 
-    // User should click on the height class and unselect Mid Rise option and then verify project count is updated or not.
-    @Test(priority = 36, description = "Verifies that unselecting 'Mid-Rise' height class updates the project list.")
-    public void test36_UnselectHeightClassMidRise() {
-        // Assume 'Mid-Rise' height class is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting height class: " + before);
+    @Test(priority = 28, description = "Select and Unselect multiple brands ('Franck Muller', 'Armani') and verify project Count updates accordingly.")
+    public void test28_SelectAndUnselectBrandFilter() {
+        extentTest = extent.createTest("Select & Unselect Brand Filter",
+                "User selects 'Franck Muller' and 'Armani' brands to filter, then resets the selection and verifies project Count updates both times.");
 
-        projectSearchPage.toggleHeightClassMidRise(); // Unselects Mid-Rise and clicks outside
+        // STEP 1: Select Brands and Verify Change
+        String countBeforeSelection = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before selecting brands: " + countBeforeSelection);
+
+        projectSearchPage.selectBrands();
         projectSearchPage.waitFor(2000);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting height class: " + after);
+        String countAfterSelection = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after selecting brands: " + countAfterSelection);
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'Mid-Rise' option.");
-        extentTest.pass("✅ The project count updated after unselecting 'Mid-Rise' option.");
+        try {
+            Assert.assertNotEquals(countAfterSelection, countBeforeSelection, "❌ Project count did not change after selecting brands.");
+            extentTest.pass("✅ Project count updated after selecting brands.");
+        } catch (AssertionError e) {
+            extentTest.fail("❌ " + e.getMessage());
+            throw e;
+        }
+
+        // STEP 2: Unselect Brands and Verify Change
+        String countBeforeUnselect = countAfterSelection;
+        extentTest.info("Project count before unselecting brands: " + countBeforeUnselect);
+
+        projectSearchPage.unselectBrands();
+        projectSearchPage.waitFor(2000);
+
+        String countAfterUnselect = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after unselecting brands: " + countAfterUnselect);
+
+        try {
+            Assert.assertNotEquals(countAfterUnselect, countBeforeUnselect, "❌ Project count did not change after unselecting brands.");
+            extentTest.pass("✅ Project count updated after unselecting brands.");
+        } catch (AssertionError e) {
+            extentTest.fail("❌ " + e.getMessage());
+            throw e;
+        }
     }
 
-    // User should click on the Brand field and '1 hotels', '25 hours hotels'and then verify project count is updated or not.
-    @Test(priority = 37, description = "Verifies that selecting multiple brands ('1 Hotels', '25 Hours Hotels') filters the project list.")
-    public void test37_SelectBrandFilter() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting brands: " + before);
+    // User should click on the furnishing field and select each options one by one and verify projects count updated or not.
+    @Test(priority = 29, description = "Verifies that selecting and unselecting each furnishing option (Fully Furnished, Partially Furnished, Unfurnished) updates the project count correctly.")
+    public void test29_VerifyFurnishingFiltering() {
+        LinkedHashMap<String, By> furnishingOptions = new LinkedHashMap<>();
+        furnishingOptions.put("Fully Furnished", projectSearchPage.fullyFurnishedOption);
+        furnishingOptions.put("Partially Furnished", projectSearchPage.partiallyFurnishedOption);
+        furnishingOptions.put("Unfurnished", projectSearchPage.unFurnishedOption);
 
-        projectSearchPage.selectBrands(); // Selects both brands and clicks outside
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting brands: " + after);
+        for (Map.Entry<String, By> entry : furnishingOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting brands.");
-        extentTest.pass("✅ The project count updated after selecting brands.");
+            // --- Step 1: Select the Furnishing option and Verify Update ---
+            extentTest.info("Attempting to select Furnishing option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
+
+            try {
+                projectSearchPage.toggleFurnishingOptions(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
+
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
+
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+
+            // --- Step 2: Unselect the Furnishing option and Verify Update ---
+            extentTest.info("Attempting to unselect Furnishing option: '" + optionName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + optionName + "': " + beforeUnselectionCount);
+
+            try {
+                projectSearchPage.toggleFurnishingOptions(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
+
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + optionName + "': " + afterUnselectionCount);
+
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
+
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Furnishing filter operations failed to update the project count as expected.");
     }
 
-    // User should click on the Reset text to reset '1 hotels', '25 hours hotels' options and then verify project count is updated or not.
-    @Test(priority = 38, description = "Verifies that unselecting multiple brands updates the project list.")
-    public void test38_UnselectBrandFilter() {
-        // Assume brands are selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting brands: " + before);
+    // user should click and select each and every options of Kitchen appliances and verify project count.
+    
+    @Test(priority = 30, description = "Verifies that selecting and unselecting each Kitchen options (Fully Equipped, Partially Equipped, Unequiooed) updates the project count correctly.")
+    public void test30_selectKitchenFiltering() {
+        LinkedHashMap<String, By> kitchenOptions = new LinkedHashMap<>();
+        kitchenOptions.put("Fully Equipped", projectSearchPage.fullyEquippedOption);
+        kitchenOptions.put("Partially Equipped", projectSearchPage.partiallyEquippedOption);
+        kitchenOptions.put("Unequipped", projectSearchPage.unEquippedOption);
 
-        projectSearchPage.unselectBrands(); // Unselects both brands and clicks outside
-        projectSearchPage.waitFor(2000);
+        boolean allFiltersPassed = true;
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting brands: " + after);
+        for (Map.Entry<String, By> entry : kitchenOptions.entrySet()) {
+            String optionName = entry.getKey();
+            By locator = entry.getValue();
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting brands.");
-        extentTest.pass("✅ The project count updated after unselecting brands.");
-    }
+            // --- Step 1: Select the Kitchen option and Verify Update ---
+            extentTest.info("Attempting to select Kitchen option: '" + optionName + "'.");
+            String beforeSelectionCount = projectSearchPage.getProjectCount();
+            extentTest.info("Project count before selecting '" + optionName + "': " + beforeSelectionCount);
 
-    // User should click on the furnishing field and select partially furnished and verify projects count updated or not.
-    @Test(priority = 39, description = "Verifies that selecting 'Partially Furnished' filters the project list.")
-    public void test39_SelectFurnishingPartiallyFurnished() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting furnishing: " + before);
+            try {
+                projectSearchPage.toggleKitchenOptions(locator); // Clicks dropdown, selects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to apply
 
-        projectSearchPage.toggleFurnishingPartiallyFurnished(); // Selects Partially Furnished and clicks outside
-        projectSearchPage.waitFor(2000);
+                String afterSelectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after selecting '" + optionName + "': " + afterSelectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting furnishing: " + after);
+                if (!afterSelectionCount.equals(beforeSelectionCount)) {
+                    extentTest.pass("✅ Project count updated after selecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after selecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to select '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Partially Furnished'.");
-        extentTest.pass("✅ The project count updated after selecting 'Partially Furnished'.");
-    }
+            // --- Step 2: Unselect the Kitchen option and Verify Update ---
+            extentTest.info("Attempting to unselect Kitchen option: '" + optionName + "'.");
+            String beforeUnselectionCount = projectSearchPage.getProjectCount(); // This should be the 'afterSelectionCount'
+            extentTest.info("Project count before unselecting '" + optionName + "': " + beforeUnselectionCount);
 
-    // User should click on the furnishing field and unselected partially furnished and verify projects count updated or not.
-    @Test(priority = 40, description = "Verifies that unselecting 'Partially Furnished' updates the project list.")
-    public void test40_UnselectFurnishingPartiallyFurnished() {
-        // Assume 'Partially Furnished' is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting furnishing: " + before);
+            try {
+                projectSearchPage.toggleKitchenOptions(locator); // Clicks dropdown, unselects, clicks outside
+                projectSearchPage.waitFor(3000); // Allow time for filtering to revert
 
-        projectSearchPage.toggleFurnishingPartiallyFurnished(); // Unselects Partially Furnished and clicks outside
-        projectSearchPage.waitFor(2000);
+                String afterUnselectionCount = projectSearchPage.getProjectCount();
+                extentTest.info("Project count after unselecting '" + optionName + "': " + afterUnselectionCount);
 
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting furnishing: " + after);
+                if (!afterUnselectionCount.equals(beforeUnselectionCount)) {
+                    extentTest.pass("✅ Project count updated after unselecting '" + optionName + "'.");
+                } else {
+                    extentTest.fail("❌ Project count did NOT change after unselecting '" + optionName + "'. (Expected update)");
+                    allFiltersPassed = false;
+                }
+            } catch (Exception e) {
+                String errorMsg = "❌ Failed to unselect '" + optionName + "' due to: " + e.getMessage();
+                extentTest.fail(errorMsg);
+                System.out.println(errorMsg);
+                allFiltersPassed = false;
+            }
+        }
 
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'Partially Furnished'.");
-        extentTest.pass("✅ The project count updated after unselecting 'Partially Furnished'.");
-    }
-
-    // user should click on the kitchen field and select the fully equipped option and verify results are updated or not.
-    @Test(priority = 41, description = "Verifies that selecting 'Fully Equipped' for kitchen filters the project list.")
-    public void test41_SelectKitchenFullyEquipped() {
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before selecting kitchen option: " + before);
-
-        projectSearchPage.toggleKitchenFullyEquipped(); // Selects Fully Equipped and clicks outside
-        projectSearchPage.waitFor(2000);
-
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after selecting kitchen option: " + after);
-
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after selecting 'Fully Equipped' kitchen option.");
-        extentTest.pass("✅ The project count updated after selecting 'Fully Equipped' kitchen option.");
-    }
-
-    // user should click on the kitchen field and unselect the fully equipped option and verify results are updated or not.
-    @Test(priority = 42, description = "Verifies that unselecting 'Fully Equipped' for kitchen updates the project list.")
-    public void test42_UnselectKitchenFullyEquipped() {
-        // Assume 'Fully Equipped' is selected from a previous test or setup step
-        String before = projectSearchPage.getProjectCount();
-        extentTest.info("Project count before unselecting kitchen option: " + before);
-
-        projectSearchPage.toggleKitchenFullyEquipped(); // Unselects Fully Equipped and clicks outside
-        projectSearchPage.waitFor(2000);
-
-        String after = projectSearchPage.getProjectCount();
-        extentTest.info("Project count after unselecting kitchen option: " + after);
-
-        Assert.assertNotEquals(after, before, "❌ The project count did not change after unselecting 'Fully Equipped' kitchen option.");
-        extentTest.pass("✅ The project count updated after unselecting 'Fully Equipped' kitchen option.");
+        Assert.assertTrue(allFiltersPassed, "❌ One or more Kitchen filter operations failed to update the project count as expected.");
     }
 
     // user should click and select Multiple Amenities and verify results are updated or not.
-    @Test(priority = 43, description = "Verifies that selecting 'A La Carte Services' amenity filters the project list.")
-    public void test43_SelectMultipleAmenities() {
+    @Test(priority = 31, description = "Verifies that selecting 'A La Carte Services' amenity filters the project list.")
+    public void test31_SelectMultipleAmenities() {
         String before = projectSearchPage.getProjectCount();
         extentTest.info("Project count before selecting amenities: " + before);
 
@@ -918,8 +1339,8 @@ public class ProjectSearchTest extends BaseTest {
     }
 
     // user should click on the Reset Filter Text and verify Project count updated.
-    @Test(priority = 44, description = "Verifies that clicking the 'Reset Filters' button clears all filters and updates the project count.")
-    public void test44_ClickResetFilter() {
+    @Test(priority = 32, description = "Verifies that clicking the 'Reset Filters' button clears all filters and updates the project count.")
+    public void test32_ClickResetFilter() {
         String currentProjectCount = projectSearchPage.getProjectCount(); // Current count (after previous filters)
         extentTest.info("Project count before clicking 'Reset Filters': " + currentProjectCount);
 
@@ -936,10 +1357,9 @@ public class ProjectSearchTest extends BaseTest {
 
 
     // Verify User click and selected the heatmap checkbox or not
-    @Test(priority = 45, description = "Verifies that selecting the 'Heatmap' option makes the Year Range Filter visible.")
-    public void test45_VerifyHeatMapSelected() {
-        // As requested, using extentTest directly here.
-        // Be mindful of this in parallel execution, ensure proper thread management elsewhere.
+    @Test(priority = 33, description = "Verifies that selecting the 'Heatmap' option makes the Year Range Filter visible.")
+    public void test33_VerifyHeatMapSelected() {
+
         extentTest.info("Attempting to toggle Heatmap checkbox and verify Year Range Filter visibility.");    
 
         projectSearchPage.toggleHeatmapCheckbox(); // This method now includes waiting for verifyYearRange
@@ -952,8 +1372,8 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ Year Range Filter is present and visible after toggling Heatmap, confirming heatmap selection functionality.");    
     }
 
-    @Test(priority = 46, description = "Verifies that sorting the project list by different options (Earliest Completion, Latest Completion, Recently Added) reorders the projects.")
-    public void test46_VerifyProjectListUpdatesOnAllSortOptions() {
+    @Test(priority = 34, description = "Verifies that sorting the project list by different options (Earliest Completion, Latest Completion, Recently Added) reorders the projects.")
+    public void test34_VerifyProjectListUpdatesOnAllSortOptions() {
         // Define all sort options to test
         Map<String, By> sortOptions = new LinkedHashMap<>();
         sortOptions.put("Earliest Completion", projectSearchPage.getSortByEarliestCompletion());
@@ -989,8 +1409,8 @@ public class ProjectSearchTest extends BaseTest {
         Assert.assertTrue(allOptionsSorted, "❌ One or more sort options did not update the project list as expected.");
     }
 
-//    @Test(priority = 47, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
-//    public void test47_SubmitFeedbackForm() {
+//    @Test(priority = 35, description = "Verifies that submitting the feedback form displays a successful thank-you message.")
+//    public void test35_SubmitFeedbackForm() {
 //        String answer1 = "This is a test feedback message for automated testing.";
 //        String answer2 = "Second part of test feedback.";
 //
@@ -1008,8 +1428,8 @@ public class ProjectSearchTest extends BaseTest {
 //    }
 
     // Special Test method for handeling multiple click actions on the Single Project card.
-    @Test(priority = 48, description = "Verifies that clicking elements on a project card (like title, bedrooms, payments) opens the correct linked page/tab.")
-    public void test48_ProjectElementNavigationAndVerification() {
+    @Test(priority = 36, description = "Verifies that clicking elements on a project card (like title, bedrooms, payments) opens the correct linked page/tab.")
+    public void test36_ProjectElementNavigationAndVerification() {
         extentTest.info("Checking if clicking different parts of a project card leads to the right sections.");
         Map<String, Boolean> results = projectSearchPage.verifyNavigationForClickableElements();
         boolean allPassed = true;

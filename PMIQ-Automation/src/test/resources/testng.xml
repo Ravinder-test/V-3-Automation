@@ -9,6 +9,8 @@
             <class name="com.propertymonitor.tests.LoginPageTest"/>
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
             <class name="com.propertymonitor.tests.ProjectDetailTest"/>
+            <class name="com.propertymonitor.tests.RentalYieldTest"/>
+            <class name="com.propertymonitor.tests.RentalIndexTest"/>
         </classes>
     </test>
 
@@ -20,6 +22,8 @@
             <class name="com.propertymonitor.tests.LoginPageTest"/>
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
             <class name="com.propertymonitor.tests.ProjectDetailTest"/>
+            <class name="com.propertymonitor.tests.RentalYieldTest"/>
+            <class name="com.propertymonitor.tests.RentalIndexTest"/>
         </classes>
     </test>
 

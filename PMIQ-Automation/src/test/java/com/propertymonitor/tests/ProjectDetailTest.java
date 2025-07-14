@@ -159,28 +159,30 @@ public class ProjectDetailTest extends BaseTest {
 //        Assert.assertTrue(isThankYouShown, "❌ The feedback form did not show the thank-you message.");
 //    }
     
-    @Test(priority = 10, description = "Verifies breadcrumb navigation to Project Search page and project counts visibility.")
-    public void test10_VerifyBreadcrumbNavigationAndProjectCounts() {
-        try {
-            projectDetailPage.clickBreadcrumbAndVerifyNavigation();
-            extentTest.info("✅ Successfully navigated back to Project Search page via breadcrumb.");
-
-            // Verify URL
-            String currentUrl = driver.getCurrentUrl();
-            Assert.assertTrue(currentUrl.contains("projects/project-search"), "❌ Current URL does not contain 'projects/project-search'. URL: " + currentUrl);
-            extentTest.info("URL verification successful: " + currentUrl);
-
-            // Verify Project Counts text
-            boolean isProjectCountVisible = projectDetailPage.isProjectCountTextVisible();
-            Assert.assertTrue(isProjectCountVisible, "❌ Project counts text is not visible on the search page.");
-            extentTest.pass("✅ Project counts text is visible on the Project Search page.");
-
-            extentTest.pass("🎯 Breadcrumb navigation to Project Search page and project counts verification successful.");
-        } catch (Exception e) {
-            extentTest.fail("❌ Failed to navigate via breadcrumb or verify project counts: " + e.getMessage());
-            Assert.fail("Test failed due to exception: " + e.getMessage());
-        }
-    }
+    
+    // As per the new requirement the breadcrumbs are removed and need to confirm first and then weill Enable or delete this Test case
+//    @Test(priority = 10, description = "Verifies breadcrumb navigation to Project Search page and project counts visibility.")
+//    public void test10_VerifyBreadcrumbNavigationAndProjectCounts() {
+//        try {
+//            projectDetailPage.clickBreadcrumbAndVerifyNavigation();
+//            extentTest.info("✅ Successfully navigated back to Project Search page via breadcrumb.");
+//
+//            // Verify URL
+//            String currentUrl = driver.getCurrentUrl();
+//            Assert.assertTrue(currentUrl.contains("projects/project-search"), "❌ Current URL does not contain 'projects/project-search'. URL: " + currentUrl);
+//            extentTest.info("URL verification successful: " + currentUrl);
+//
+//            // Verify Project Counts text
+//            boolean isProjectCountVisible = projectDetailPage.isProjectCountTextVisible();
+//            Assert.assertTrue(isProjectCountVisible, "❌ Project counts text is not visible on the search page.");
+//            extentTest.pass("✅ Project counts text is visible on the Project Search page.");
+//
+//            extentTest.pass("🎯 Breadcrumb navigation to Project Search page and project counts verification successful.");
+//        } catch (Exception e) {
+//            extentTest.fail("❌ Failed to navigate via breadcrumb or verify project counts: " + e.getMessage());
+//            Assert.fail("Test failed due to exception: " + e.getMessage());
+//        }
+//    }
     // Below Test case is to Handle V-2 to V-3 Direct Login.
     @Test(priority = 11, description = "Verify redirection to V-2 platform via 'Switch to Original Platform' hyperlink.")
     public void test11_SwitchToOriginalPlatformAndVerifyV2() {

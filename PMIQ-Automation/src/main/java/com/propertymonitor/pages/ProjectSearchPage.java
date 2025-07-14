@@ -33,11 +33,16 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     private final By locationClear = By.xpath("//button[@data-test-id='basicFilters.communitySearch-clear-input']");
 
     private final By unitTypeDropdown = By.xpath("//input[@data-test-id='unitType']");
-    private final By apartmentCheckbox = By.xpath("//label[contains(., 'Apartment')]//span[contains(@class, 'chakra-checkbox__control')]");
-
+    public final By apartmentCheckboxLabel = By.xpath("//label[contains(., 'Apartment')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By villaCheckboxLabel = By.xpath("//label[contains(., 'Villa')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By townhouseCheckboxLabel = By.xpath("//label[contains(., 'Townhouse')]//span[contains(@class, 'chakra-checkbox__control')]");
+    
     private final By saleStatusDropdown = By.xpath("//input[@data-test-id='saleStatus']");
-    private final By upcomingCheckbox = By.xpath("//label[contains(., 'Upcoming')]//span[contains(@class, 'chakra-checkbox__control')]");
-
+    public final By upcomingCheckboxLabel = By.xpath("//label[contains(., 'Upcoming')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By preSaleEoiCheckboxLabel = By.xpath("//label[contains(., 'Pre-Sale (EOI)')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By onSaleCheckboxLabel = By.xpath("//label[contains(., 'On Sale')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By soldOutCheckboxLabel = By.xpath("//label[contains(., 'Sold Out')]//span[contains(@class, 'chakra-checkbox__control')]");
+    
     private final By projectCountText = By.xpath("//p[contains(@class, 'chakra-text') and contains(text(), 'project')]");
 
     private final By developersField = By.xpath("//input[@data-test-id='developers']");
@@ -49,23 +54,51 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     private final By advanceFilterDrawer = By.xpath("//input[@data-test-id='advancedFilters.constructionStatus']"); // Added for drawer verification
 
     // Locators below are of Project status Advance filters.
-    private final By clickConstructionFilter = By.xpath("//input[@data-test-id='advancedFilters.constructionStatus']");
-    private final By selectCompletedFilter = By.xpath("//label[contains(., 'Completed')]//span[contains(@class, 'chakra-checkbox__control')]");
-
+    private final By constructionStatusDropdown = By.xpath("//input[@data-test-id='advancedFilters.constructionStatus']");
+    
+    // Locators for each Construction Status checkbox label within the dropdown popup
+    // The `data-popper-placement` on the parent `div` helps ensure we target the correct popup.
+	 public final By upcomingStatusCheckboxLabel = By.xpath("//label[contains(., 'Upcoming')]//span[contains(@class, 'chakra-checkbox__control')]");
+	 public final By underConstructionStatusCheckboxLabel = By.xpath("//label[contains(., 'Under Construction')]//span[contains(@class, 'chakra-checkbox__control')]");
+	 public final By onHoldStatusCheckboxLabel = By.xpath("//label[contains(., 'On Hold')]//span[contains(@class, 'chakra-checkbox__control')]");
+	 public final By cancelledStatusCheckboxLabel = By.xpath("//label[contains(., 'Cancelled')]//span[contains(@class, 'chakra-checkbox__control')]");
+	 public final By completedStatusCheckboxLabel = By.xpath("//label[contains(., 'Completed')]//span[contains(@class, 'chakra-checkbox__control')]");
+	 public final By handedOverStatusCheckboxLabel = By.xpath("//label[contains(., 'Handed Over')]//span[contains(@class, 'chakra-checkbox__control')]");
+    
+    // Locators to select multiple option of Completion date filter.
     private By clickCompletionDate = By.xpath("//div[@class='chakra-stack css-mw8ufx']//input[@placeholder='Select Actual Completion Date']");
-    private By selectDateOnCalendar = By.xpath("//button[@class='chakra-button css-ofgr9y' and text()='2025 (upcoming)']");
-    private By clearSelectedDate = By.xpath("//button[@aria-label='reset-date']");
+    public By clearSelectedDate = By.xpath("//button[@aria-label='reset-date']");
 
-    private By clickSalesStartDate = By.xpath("//input[@placeholder='Select Sales Start Date']/ancestor::div[@class='chakra-input__group css-2kqykg']");
-    private By selectSalesStartDate = By.xpath("//button[contains(text(), 'Last 90 days')]");
-    private By clearSelectedSalesStartDate = By.xpath("//button[@aria-label='reset-date']");
+    public final By completedDateOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Completed']");
+    public final By year2025UpcomingDateOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='2025 (upcoming)']");
+    public final By year2026DateOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='2026']");
+    public final By year2027DateOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='2027']");
+    public final By year2028AndLaterDateOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='2028 and later']");
+    
+    
+    // Locators to select multiple sales start date options
+    public final By clickSalesStartDate = By.xpath("//input[@placeholder='Select Sales Start Date']/ancestor::div[@class='chakra-input__group css-2kqykg']");
+    public final By last7DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Last 7 days']");
+    public final By last30DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Last 30 days']");
+    public final By last90DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Last 90 days']");
+    public final By next7DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Next 7 days']");
+    public final By next30DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Next 30 days']");
 
     // below locators are special locators for the percentage value becuase it has the same test-id with Downpayment percentage.
     private By inputMinCompletionPercentage = By.xpath("(//input[@data-test-id='Min'])[1]");
     private By inputMaxCompletionPercentage = By.xpath("(//input[@data-test-id='Max'])[1]");
 
     // Locators below are of Units Advance filters
-    private By selectBedroom = By.xpath("//label[.//span[text()='5']]");
+    // Locators to select multiple bedroom filters
+    public final By studioBedroomOption = By.xpath("//label[.//span[text()='Studio']]");
+    public final By oneBedroomOption = By.xpath("//label[.//span[text()='1']]");
+    public final By twoBedroomOption = By.xpath("//label[.//span[text()='2']]");
+    public final By threeBedroomOption = By.xpath("//label[.//span[text()='3']]");
+    public final By fourBedroomOption = By.xpath("//label[.//span[text()='4']]");
+    public final By fiveBedroomOption = By.xpath("//label[.//span[text()='5']]");
+    public final By sixBedroomOption = By.xpath("//label[.//span[text()='6']]");
+    public final By sevenBedroomOption = By.xpath("//label[.//span[text()='7']]");
+    public final By eightPlusBedroomOption = By.xpath("//label[.//span[text()='8+']]");
 
     private By inputMinBuiltupArea = By.xpath("//input[@data-test-id='advancedFilters.minBuiltUpArea']");
     private By inputMaxBuiltupArea = By.xpath("//input[@data-test-id='advancedFilters.maxBuiltUpArea']");
@@ -77,29 +110,42 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     private By inputMinDownpaymentPercentage = By.xpath("(//input[@data-test-id='Min'])[2]");
     private By inputMaxDownpaymentPercentage = By.xpath("(//input[@data-test-id='Max'])[2]");
 
-    private By clickPaymentPlan = By.xpath("//input[@data-test-id='advancedFilters.paymentPlans']");
-    private By selectPaymentPlan = By.xpath("//label[contains(., 'On Completion')]//span[contains(@class, 'chakra-checkbox__control')]");
-
-    private By clickDldTransfer = By.xpath("//input[@data-test-id='advancedFilters.dldTransferOffer']");
-    private By selectDldTransfer = By.xpath("//label[.//span[text()='50%']]");
+    public final By clickPaymentPlan = By.xpath("//input[@data-test-id='advancedFilters.paymentPlans']");
+    public final By onCompletionOption = By.xpath("//label[contains(., 'On Completion')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public final By postHandoverOption = By.xpath("//label[contains(., 'Post Handover')]//span[contains(@class, 'chakra-checkbox__control')]");
+    
+    public By clickDldTransfer = By.xpath("//input[@data-test-id='advancedFilters.dldTransferOffer']");
+    public By selectFiftyPercentageOption = By.xpath("//label[.//span[text()='50%']]");
+    public By selectZeroPercentageOption = By.xpath("//label[.//span[text()='0%']]");
+    public By selectHundredPercentageOption = By.xpath("//label[.//span[text()='100%']]");
 
     private By inputMinBrokerCommission = By.xpath("(//input[@data-test-id='Min'])[3]");
     private By inputMaxBrokerCommission = By.xpath("(//input[@data-test-id='Max'])[3]");
 
     // Locators below are of Project Features
+    // Locators below are for the multiple options of height classes.
     private By clickHeightClass = By.xpath("//input[@data-test-id='advancedFilters.heightCLass']");
-    private By selectHeightClass = By.xpath("//label[.//span[text()='Mid-Rise (5-12 floors)']]");
+    public final By lowRiseOption = By.xpath("//label[.//span[text()='Low-Rise (1-4 floors)']]");
+    public final By midRiseOption = By.xpath("//label[.//span[text()='Mid-Rise (5-12 floors)']]");
+    public final By highRiseOption = By.xpath("//label[.//span[text()='High-Rise (13-39 floors)']]");
+    public final By skyscraperOption = By.xpath("//label[.//span[text()='Skyscraper (40 floors+)']]");
+    public final By singleFamilyOption = By.xpath("//label[.//span[text()='Single Famliy (Villa/Townhouse)']]");
 
+    
     private By clickBrand = By.xpath("//input[@data-test-id='advancedFilters.brand']");
-    private By selectBrand1 = By.xpath("//span[text()='1 Hotels']/preceding-sibling::span");
-    private By selectBrand2 = By.xpath("//span[text()='25 hours hotels']/preceding-sibling::span");
+    private By selectBrand1 = By.xpath("//span[text()='Franck Muller']/preceding-sibling::span");
+    private By selectBrand2 = By.xpath("//span[text()='Armani']/preceding-sibling::span");
 
-    private By clickFurnishing = By.xpath("//input[@data-test-id='advancedFilters.furnishing']");
-    private By selectFurnishing = By.xpath("//label[contains(., 'Partially Furnished')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public By clickFurnishing = By.xpath("//input[@data-test-id='advancedFilters.furnishing']");
+    public By partiallyFurnishedOption = By.xpath("//label[contains(., 'Partially Furnished')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public By fullyFurnishedOption = By.xpath("//label[contains(., 'Fully Furnished')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public By unFurnishedOption = By.xpath("//label[contains(., 'Unfurnished')]//span[contains(@class, 'chakra-checkbox__control')]");
 
-    private By clickKitchen = By.xpath("//input[@data-test-id='advancedFilters.kitchenAppliances']");
-    private By selectKitchenOption = By.xpath("//label[contains(., 'Fully Equipped')]//span[contains(@class, 'chakra-checkbox__control')]");
-
+    public By clickKitchen = By.xpath("//input[@data-test-id='advancedFilters.kitchenAppliances']");
+    public By fullyEquippedOption = By.xpath("//label[contains(., 'Fully Equipped')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public By partiallyEquippedOption = By.xpath("//label[contains(., 'Partially Equipped')]//span[contains(@class, 'chakra-checkbox__control')]");
+    public By unEquippedOption = By.xpath("//label[contains(., 'Unequipped')]//span[contains(@class, 'chakra-checkbox__control')]");
+    
     // Locators for Amenities
     private final By selectAmenities = By.xpath("//div[@class='css-dvug1b' and contains(text(), 'A La Carte Services')]");
 
@@ -140,9 +186,7 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     // Locator for project name on detail page
     //private final By projectDetailName = By.xpath("//p[contains(@class, 'css-o7ov3m') and text()='Habtoor Grand Residences']");
 
-    // Locator for Onboarding Steps.
-    
-
+    // Locator for Onboarding Steps.    
     private final By verifyOnboardingTitles = By.xpath("//div[@class='chakra-stack css-1n3g6t4']/h2");
     private final By onBoardingIcon = By.xpath("//button[@data-test-id='joyride-bulb']");
 
@@ -312,17 +356,36 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(locationClear)).click();
     }
 
-    public void toggleApartmentCheckbox() {
+    // New action method to toggle any unit type checkbox
+    public void toggleUnitType(By checkboxLocator) {
+        // 1. Click the main Unit Type dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(unitTypeDropdown)).click();
-        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(apartmentCheckbox));
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
         checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
-    public void toggleUpcomingSaleStatus() {
+    // New Action to toggle any Sales Type Checkbox
+    public void toggleSaleStatus(By checkboxLocator) {
+        // 1. Click the main Sale Status dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(saleStatusDropdown)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(upcomingCheckbox)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
     public void searchDeveloper() {
@@ -351,31 +414,55 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         }
     }
 
-    public void toggleConstructionStatusCompleted() {
-        wait.until(ExpectedConditions.elementToBeClickable(clickConstructionFilter)).click();
-        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(selectCompletedFilter));
+    public void toggleConstructionStatus(By checkboxLocator) {
+        // 1. Click the main Construction Status dropdown to open the options
+        wait.until(ExpectedConditions.elementToBeClickable(constructionStatusDropdown)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
         checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
-    public void selectCompletionDate2025Upcoming() {
+    public void selectCompletionDateOption(By optionLocator) {
+        // 1. Click the main Completion Date dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickCompletionDate)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectDateOnCalendar)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific option button
+        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(optionLocator));
+        option.click();
+        waitFor(500); // Small wait after clicking option
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
+        // Note: For single-select buttons, clicking an option usually auto-closes.
+        // This 'clickOutside' is a safe fallback.
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
-    public void clearCompletionDate() {
+    public void clearSelectedCompletionDate() {
         wait.until(ExpectedConditions.elementToBeClickable(clearSelectedDate)).click();
     }
 
-    public void selectSalesStartDateLast90Days() {
+    public void selectSalesStartDateOption(By optionLocator) {
+        // 1. Click the main Sales Start Date dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickSalesStartDate)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectSalesStartDate)).click();
-        clickOutside();
-    }
+        waitFor(500); // Give time for options to appear
 
-    public void clearSalesStartDate() {
-        wait.until(ExpectedConditions.elementToBeClickable(clearSelectedSalesStartDate)).click();
+        // 2. Click the specific option button
+        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(optionLocator));
+        option.click();
+        waitFor(500); // Small wait after clicking option
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
+        clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
     public void setCompletionPercentageRange(String min, String max) {
@@ -386,8 +473,17 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxCompletionPercentage)).sendKeys(max);
     }
 
-    public void toggleBedroom5() {
-        wait.until(ExpectedConditions.elementToBeClickable(selectBedroom)).click();
+    public void toggleBedroomOption(By checkboxLocator) {
+        // No need to click a dropdown here, as options are directly visible.
+
+        // 1. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 2. Click outside to apply changes/close any transient elements (common for filter UIs)
+        clickOutside();
+        waitFor(500); // Small wait after clicking outside
     }
 
     public void setBuiltupAreaRange(String min, String max) {
@@ -414,16 +510,36 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxDownpaymentPercentage)).sendKeys(max);
     }
 
-    public void togglePaymentPlanOnCompletion() {
+    public void togglePaymentPlanOption(By checkboxLocator) {
+        // 1. Click the main Payment Plan dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickPaymentPlan)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectPaymentPlan)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
-    public void toggleDldTransfer50Percent() {
+ // Below test method is for DLD transfer fee.
+    
+    public void toggleDldTransferPercent(By checkboxLocator) {
+        // 1. Click the main DLD transfer fee dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickDldTransfer)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectDldTransfer)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
     public void setBrokerCommissionRange(String min, String max) {
@@ -434,10 +550,19 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxBrokerCommission)).sendKeys(max);
     }
 
-    public void toggleHeightClassMidRise() {
+    public void toggleHeightClassOption(By checkboxLocator) {
+        // 1. Click the main Height Class dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickHeightClass)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectHeightClass)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
     public void selectBrands() {
@@ -455,16 +580,34 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         clickOutside();
     }
 
-    public void toggleFurnishingPartiallyFurnished() {
+    public void toggleFurnishingOptions(By checkboxLocator) {
+        // 1. Click the main Height Class dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickFurnishing)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectFurnishing)).click();
-        clickOutside();
-    }
+        waitFor(500); // Give time for options to appear
 
-    public void toggleKitchenFullyEquipped() {
-        wait.until(ExpectedConditions.elementToBeClickable(clickKitchen)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(selectKitchenOption)).click();
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
         clickOutside();
+        waitFor(500); // Small wait after closing dropdown
+    }
+    
+    public void toggleKitchenOptions(By checkboxLocator) {
+        // 1. Click the main Height Class dropdown to open the options
+        wait.until(ExpectedConditions.elementToBeClickable(clickKitchen)).click();
+        waitFor(500); // Give time for options to appear
+
+        // 2. Click the specific checkbox label
+        WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkbox.click();
+        waitFor(500); // Small wait after clicking checkbox
+
+        // 3. Click outside to close the dropdown (if it doesn't auto-close)
+        clickOutside();
+        waitFor(500); // Small wait after closing dropdown
     }
 
     public void selectAmenitiesALaCarteServices() {
@@ -646,7 +789,7 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         return resultMap;
     }
     
-    // handel Spinner method
+    // handle Spinner method
     
     public void waitForAnySpinnerToDisappear() {
         try {
