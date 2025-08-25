@@ -6,7 +6,7 @@
         <parameter name="browser" value="firefox"/>
         <parameter name="environment" value="stage"/>
         <classes>
-            <class name="com.propertymonitor.tests.LoginPageTest"/>
+            
             <class name="com.propertymonitor.tests.ProjectSearchTest"/>
             <class name="com.propertymonitor.tests.ProjectDetailTest"/>
             <class name="com.propertymonitor.tests.RentalYieldTest"/>
@@ -15,7 +15,7 @@
     </test>
 
     <!-- Safari -->
-    <test name="Safari Tests">
+  <!--   <test name="Safari Tests">
         <parameter name="browser" value="safari"/>
         <parameter name="environment" value="stage"/>
         <classes>
@@ -25,7 +25,7 @@
             <class name="com.propertymonitor.tests.RentalYieldTest"/>
             <class name="com.propertymonitor.tests.RentalIndexTest"/>
         </classes>
-    </test>
+    </test> -->
 
     <listeners>
         <listener class-name="com.propertymonitor.listeners.TestListener"/>

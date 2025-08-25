@@ -85,9 +85,26 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     public final By next30DaysOption = By.xpath("//button[contains(@class, 'chakra-button') and normalize-space(.)='Next 30 days']");
 
     // below locators are special locators for the percentage value becuase it has the same test-id with Downpayment percentage.
-    private By inputMinCompletionPercentage = By.xpath("(//input[@data-test-id='Min'])[1]");
-    private By inputMaxCompletionPercentage = By.xpath("(//input[@data-test-id='Max'])[1]");
-
+    private By inputMinCompletionPercentage = By.xpath("(//label[text()='Completion Percentage']/following-sibling::div//input[@data-test-id='Min']");
+    private By inputMaxCompletionPercentage = By.xpath("(//label[text()='Completion Percentage']/following-sibling::div//input[@data-test-id='Max']");
+    
+    // Below locators are for Price range.
+    
+    private By inputMinPriceRange = By.xpath("//input[@data-test-id='advancedFilters.minPrice']");
+    private By inputMaxPriceRange = By.xpath("//input[@data-test-id='advancedFilters.maxPrice']");
+    // Below locators are for price per ft range
+    
+    private By inputMinPricePerFtRange = By.xpath("//input[@data-test-id='advancedFilters.minPricePerSqft']");
+    private By inputMaxPricePerFtRange = By.xpath("//input[@data-test-id='advancedFilters.maxPricePerSqft']");
+    
+    // Below locators are for the Internal Area range.
+    private By inputMinInternaleAreaRange = By.xpath("//input[@data-test-id='advancedFilters.minInternalArea']");
+    private By inputMaxInternaleAreaRange = By.xpath("//input[@data-test-id='advancedFilters.maxInternalArea']");
+    
+    // Below locators are for the Extenal Area range.
+    private By inputMinExternalAreaRange = By.xpath("//input[@data-test-id='advancedFilters.minExternalArea']");
+    private By inputMaxExternaleAreaRange = By.xpath("//input[@data-test-id='advancedFilters.maxExternalArea']");
+    
     // Locators below are of Units Advance filters
     // Locators to select multiple bedroom filters
     public final By studioBedroomOption = By.xpath("//label[.//span[text()='Studio']]");
@@ -100,15 +117,21 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     public final By sevenBedroomOption = By.xpath("//label[.//span[text()='7']]");
     public final By eightPlusBedroomOption = By.xpath("//label[.//span[text()='8+']]");
 
+    public final By availabilityUnitCheckbox = By.xpath("//label[.//span[text()='Show only projects with available units']]");
+    
     private By inputMinBuiltupArea = By.xpath("//input[@data-test-id='advancedFilters.minBuiltUpArea']");
     private By inputMaxBuiltupArea = By.xpath("//input[@data-test-id='advancedFilters.maxBuiltUpArea']");
 
     private By inputMinPlotSize = By.xpath("//input[@data-test-id='advancedFilters.minPlotSize']");
     private By inputMaxPlotSize = By.xpath("//input[@data-test-id='advancedFilters.maxPlotSize']");
 
+    // Below locators are for the advance filters:
+    private By inputMinDownPayment = By.xpath("//input[@data-test-id='advancedFilters.minDownPaymentPrice']");
+    private By inputMaxDownPayment = By.xpath("//input[@data-test-id='advancedFilters.maxDownPaymentPrice']");
+    
     // locators below are special locators of payments and fees
-    private By inputMinDownpaymentPercentage = By.xpath("(//input[@data-test-id='Min'])[2]");
-    private By inputMaxDownpaymentPercentage = By.xpath("(//input[@data-test-id='Max'])[2]");
+    private By inputMinDownpaymentPercentage = By.xpath("(//label[text()='Down Payment (%)']/following-sibling::div//input[@data-test-id='Min']");
+    private By inputMaxDownpaymentPercentage = By.xpath("(//label[text()='Down Payment (%)']/following-sibling::div//input[@data-test-id='Max']");
 
     public final By clickPaymentPlan = By.xpath("//input[@data-test-id='advancedFilters.paymentPlans']");
     public final By onCompletionOption = By.xpath("//label[contains(., 'On Completion')]//span[contains(@class, 'chakra-checkbox__control')]");
@@ -119,8 +142,8 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     public By selectZeroPercentageOption = By.xpath("//label[.//span[text()='0%']]");
     public By selectHundredPercentageOption = By.xpath("//label[.//span[text()='100%']]");
 
-    private By inputMinBrokerCommission = By.xpath("(//input[@data-test-id='Min'])[3]");
-    private By inputMaxBrokerCommission = By.xpath("(//input[@data-test-id='Max'])[3]");
+    private By inputMinBrokerCommission = By.xpath("(//label[text()='Broker’s Commission (%)']/following-sibling::div//input[@data-test-id='Min']");
+    private By inputMaxBrokerCommission = By.xpath("(//label[text()='Broker’s Commission (%)']/following-sibling::div//input[@data-test-id='Max']");
 
     // Locators below are of Project Features
     // Locators below are for the multiple options of height classes.
@@ -165,7 +188,11 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     private final By sortByRecentlyAdded = By.xpath("//label[.//span[text()='Recently Added']]");
     private final By sortByEarliestCompletion = By.xpath("//label[.//span[text()='Earliest Completion']]");
     private final By sortByLatestCompletion = By.xpath("//label[.//span[text()='Latest Completion']]");
-
+    private final By sortByHighestAvailability = By.xpath("//label[.//span[text()='Highest Availability']]");
+    private final By sortByHighestPrice = By.xpath("//label[.//span[text()='Highest Price']]");
+    private final By sortByLowestPrice = By.xpath("//label[.//span[text()='Lowest Price']]");
+    
+    //
     private By clickFeedback = By.xpath("//button[@data-test-id='feedback-button']");
     private By enterAnswer1 = By.xpath("//textarea[@data-test-id='ans1']");
     private By enterAnswer2 = By.xpath("//textarea[@data-test-id='ans2']");
@@ -473,6 +500,45 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxCompletionPercentage)).sendKeys(max);
     }
 
+    // Methods below are for the Avaialbilty units Data
+    
+    // Below method is for Price range.
+    
+    public void setPriceRange(String min, String max) {
+        wait.until(ExpectedConditions.elementToBeClickable(inputMinPriceRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMinPriceRange)).sendKeys(min);
+
+        wait.until(ExpectedConditions.elementToBeClickable(inputMaxPriceRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxPriceRange)).sendKeys(max);
+    }
+    
+    // Below method is for price per sqft range
+    public void setPricePerFtRange(String min, String max) {
+        wait.until(ExpectedConditions.elementToBeClickable(inputMinPricePerFtRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMinPricePerFtRange)).sendKeys(min);
+
+        wait.until(ExpectedConditions.elementToBeClickable(inputMaxPricePerFtRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxPricePerFtRange)).sendKeys(max);
+    }
+    
+    // Below method is for Internal Area
+     
+    public void setInternalAreaRange(String min, String max) {
+        wait.until(ExpectedConditions.elementToBeClickable(inputMinInternaleAreaRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMinInternaleAreaRange)).sendKeys(min);
+
+        wait.until(ExpectedConditions.elementToBeClickable(inputMaxInternaleAreaRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxInternaleAreaRange)).sendKeys(max);
+    }
+    // Below method is for the external area 
+    public void setExternalAreaRange(String min, String max) {
+        wait.until(ExpectedConditions.elementToBeClickable(inputMinExternalAreaRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMinExternalAreaRange)).sendKeys(min);
+
+        wait.until(ExpectedConditions.elementToBeClickable(inputMaxExternaleAreaRange)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxExternaleAreaRange)).sendKeys(max);
+    }
+    
     public void toggleBedroomOption(By checkboxLocator) {
         // No need to click a dropdown here, as options are directly visible.
 
@@ -484,6 +550,10 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         // 2. Click outside to apply changes/close any transient elements (common for filter UIs)
         clickOutside();
         waitFor(500); // Small wait after clicking outside
+    }
+    
+    public void clickAvailabilityUnitCheckbox() {
+        wait.until(ExpectedConditions.elementToBeClickable(availabilityUnitCheckbox)).click();
     }
 
     public void setBuiltupAreaRange(String min, String max) {
@@ -510,6 +580,15 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxDownpaymentPercentage)).sendKeys(max);
     }
 
+    public void setDownpaymentRange(String min, String max) {
+        wait.until(ExpectedConditions.elementToBeClickable(inputMinDownPayment)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMinDownPayment)).sendKeys(min);
+
+        wait.until(ExpectedConditions.elementToBeClickable(inputMaxDownPayment)).clear();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputMaxDownPayment)).sendKeys(max);
+    }
+    // 
+    
     public void togglePaymentPlanOption(By checkboxLocator) {
         // 1. Click the main Payment Plan dropdown to open the options
         wait.until(ExpectedConditions.elementToBeClickable(clickPaymentPlan)).click();
@@ -663,6 +742,10 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(sortOptionLocator)).click();
     }
     
+    public By getsortByHighestAvailability() {
+        return sortByHighestAvailability;
+    }
+    
     public By getSortByRecentlyAdded() {
         return sortByRecentlyAdded;
     }
@@ -674,6 +757,15 @@ public class ProjectSearchPage { // <-- No longer extends BaseTest
     public By getSortByLatestCompletion() {
         return sortByLatestCompletion;
     }
+    
+    public By getsortByHighestPrice() {
+        return sortByHighestPrice;
+    }
+    
+    public By getsortByLowestPrice() {
+        return sortByLowestPrice;
+    }
+    //
     
     public List<String> getProjectNames() {
         // Use a more specific wait if projects take time to load after sorting/filtering

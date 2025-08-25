@@ -15,6 +15,8 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+
+
     <dependencies>
         <!-- Selenium Java -->
         <dependency>
@@ -22,6 +24,19 @@
             <artifactId>selenium-java</artifactId>
             <version>4.18.1</version>
         </dependency>
+
+<dependency>
+    <groupId>com.github.luben</groupId>
+    <artifactId>zstd-jni</artifactId>
+    <version>1.5.6-5</version>
+</dependency>
+
+<!--Apache HTTPClient Maven Dependency-->
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.14</version>
+</dependency>
 
         <!-- WebDriverManager -->
         <dependency>

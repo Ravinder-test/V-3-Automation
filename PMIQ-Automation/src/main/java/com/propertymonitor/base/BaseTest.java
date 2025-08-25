@@ -4,15 +4,14 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import com.propertymonitor.pages.LoginPage;
+import com.propertymonitor.utils.TokenLoginUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -26,21 +25,28 @@ public class BaseTest {
     protected static ExtentReports extent;
     protected static ExtentTest extentTest;
 
-    protected static String baseUrl;
-    protected static String email;
-    protected static String password;
     protected static String environment;
-    public static String browserName; // ✅ Used for tagging tests by browser
+    public static String browserName;
+    protected String baseUrl;
     private static final Duration DEFAULT_WAIT_TIMEOUT = Duration.ofSeconds(10);
+    private static Properties configProps;
 
-    @BeforeTest(alwaysRun = true)
-    @Parameters({ "browser", "environment" })
-    public void initializeDriverAndReports(@Optional("firefox") String browser, @Optional("stage") String env) throws IOException {
-        browserName = browser; // ✅ Capture current test browser
-        environment = env;
-        loadEnvironmentConfig(environment);
+    @BeforeSuite(alwaysRun = true)
+    @Parameters({"browser", "environment"})
+    public void initializeDriverAndReports(@Optional("firefox") String browser, @Optional("stage") String env) throws IOException  {
+        browserName = browser;
+        environment = env.toLowerCase();
 
-        // Setup driver per browser
+        // Load config.properties once
+        configProps = new Properties();
+        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("Configuration file config.properties not found in resources.");
+            }
+            configProps.load(input);
+        }
+
+        // Setup driver
         if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             FirefoxOptions options = new FirefoxOptions();
@@ -55,7 +61,10 @@ public class BaseTest {
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, DEFAULT_WAIT_TIMEOUT);
 
-        // Setup Extent report once
+        // Initialize baseUrl so subclasses can access it
+        baseUrl = getEnvProperty("baseUrl");
+
+        // Setup Extent report
         if (extent == null) {
             String reportPath = System.getProperty("user.dir") + "/test-output/ExtentReport.html";
             ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath);
@@ -67,48 +76,55 @@ public class BaseTest {
             extent.attachReporter(sparkReporter);
             extent.setSystemInfo("Tester", "Ravinder Singh");
         }
+        extent.setSystemInfo("Browser", browserName);
 
-        extent.setSystemInfo("Browser", browserName); // ✅ Set browser info per <test>
-
-        performLoginOnce();
+        performApiLoginOnce();
     }
 
-    private void performLoginOnce() {
+    private void performApiLoginOnce() {
         try {
-            System.out.println("Performing initial login...");
+            System.out.println("Performing API token login via cookies...");
 
-            if (!baseUrl.endsWith("/")) {
-                baseUrl += "/";
-            }
+            String projectSearchUrl = getEnvProperty("projectSearchUrl");
+            String apiUrl = getEnvProperty("apiURL");
+            String email = getEnvProperty("email");
+            String password = getEnvProperty("password");
+            String captchaToken = getEnvProperty("CaptchaTestToken");
+            String deviceId = getEnvProperty("deviceId");
 
-            driver.get(baseUrl + "auth/login");
+            TokenLoginUtil.loginAndInject(driver, baseUrl, projectSearchUrl, apiUrl, email, password, deviceId, captchaToken);
 
-            String currentUrl = driver.getCurrentUrl();
-            if (currentUrl.contains("/projects/project-search")) {
-                System.out.println("Already logged in. Skipping login.");
-                return;
-            }
-
-            LoginPage loginPage = new LoginPage(driver, wait);
-            loginPage.login(email, password);
-
-            wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("div[data-test-id='list-scroll-wrapper']")
-            ));
-
-            System.out.println("Login successful. Current URL: " + driver.getCurrentUrl());
-
+            System.out.println("✅ API login successful, now at: " + driver.getCurrentUrl());
         } catch (Exception e) {
-            System.err.println("Initial login failed: " + e.getMessage());
-            throw new RuntimeException("Login failed, stopping test run.", e);
+            System.err.println("❌ API login failed: " + e.getMessage());
+            throw new RuntimeException("API login failed, stopping test run.", e);
+        }
+    }
+
+    private String getEnvProperty(String key) {
+        String fullKey = environment + "." + key;
+        String value = configProps.getProperty(fullKey);
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("Missing property: " + fullKey);
+        }
+        return value;
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void afterClassDelay() {
+        try {
+            System.out.println("Waiting 5 seconds before next test class...");
+            Thread.sleep(5000);  // 5 seconds delay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     @AfterTest(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
-            System.out.println("✅ WebDriver quit for this browser: " + browserName);
+         //   driver.quit();
+       //     System.out.println("✅ WebDriver quit for this browser: " + browserName);
         }
     }
 
@@ -120,7 +136,6 @@ public class BaseTest {
                 System.out.println("✅ ExtentReports flushed. Report generated.");
             }
 
-            // Upload to GitHub
             String os = System.getProperty("os.name").toLowerCase();
             String bashCommand = os.contains("win") ? "C:\\Program Files\\Git\\bin\\bash.exe" : "bash";
 
@@ -155,40 +170,6 @@ public class BaseTest {
             throw new IllegalStateException("ExtentReports is not initialized.");
         }
         return extent.createTest(testName);
-    }
-
-    protected static String getTargetEnvironmentHelper() throws IOException {
-        Properties envProps = new Properties();
-        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("test-environment.properties")) {
-            if (input == null) {
-                System.out.println("test-environment.properties not found. Defaulting to 'stage'.");
-                return "stage";
-            }
-            envProps.load(input);
-            return envProps.getProperty("environment", "stage");
-        }
-    }
-
-    protected static void loadEnvironmentConfig(String env) throws IOException {
-        Properties configProps = new Properties();
-        String filename = "config.properties";
-
-        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream(filename)) {
-            if (input == null) {
-                throw new IOException("Configuration file " + filename + " not found.");
-            }
-            configProps.load(input);
-
-            baseUrl = configProps.getProperty(env + ".baseUrl");
-            email = configProps.getProperty(env + ".email");
-            password = configProps.getProperty(env + ".password");
-
-            if (baseUrl == null || email == null || password == null) {
-                throw new IllegalArgumentException("Missing required properties in " + filename + " for environment: " + env);
-            }
-
-            System.out.println("Loaded configuration for environment: " + env);
-        }
     }
 
     public static WebDriver getDriver() {

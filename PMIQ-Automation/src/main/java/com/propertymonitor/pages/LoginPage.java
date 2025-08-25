@@ -25,7 +25,7 @@ public class LoginPage {
 
     private By emailField = By.xpath("//input[@data-test-id='email']");
     private By passwordField = By.xpath("//input[@data-test-id='password']");
-    private By loginButton = By.xpath("//html/body/div[1]/div[2]/div/div/div/div/button");
+    private By loginButton = By.xpath("//button[text()='Sign In']");
     private By postLoginElement = By.cssSelector("[data-test-id='list-scroll-wrapper']");
 
     public LoginPage(WebDriver driver, WebDriverWait wait) {
@@ -59,15 +59,21 @@ public class LoginPage {
         }
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password) throws InterruptedException {
         wait.until(ExpectedConditions.urlContains("auth/login"));
 
+        Thread.sleep(9000);
+        
         wait.until(ExpectedConditions.visibilityOfElementLocated(emailField)).clear();
         driver.findElement(emailField).sendKeys(email);
 
+        Thread.sleep(9000);
+        
         wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).clear();
         driver.findElement(passwordField).sendKeys(password);
 
+        Thread.sleep(9000);
+        
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
 
         // Wait for post-login confirmation (projects page or specific element)

@@ -1338,6 +1338,117 @@ public class ProjectSearchTest extends BaseTest {
         extentTest.pass("✅ The project count updated after selecting amenities.");
     }
 
+    // Below Test method are of Avaialabiltiy Data units.
+    @Test(priority = 32, description = "Verifies that Inputting Min/,max price range updates the project count")
+    public void test32_InputMinMaxPriceRange() {
+        String before = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before setting price range: " + before);
+
+        projectSearchPage.setPriceRange("10000", "40000000");
+        projectSearchPage.waitFor(2000);
+
+        String after = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after setting price range: " + after);
+
+        Assert.assertNotEquals(after, before, "❌ The project count did not change after setting min/max price range.");
+        extentTest.pass("✅ The project count updated after setting min/max price range");
+    }
+    
+    // Below test cases are for the availability Data units:
+    
+    @Test(priority = 33, description = "Verifies that selecting and then deselecting the availability unit checkbox updates the project count.")
+    public void test33_ToggleAvailabilityUnitCheckbox() {
+        // Step 1: Get count before
+        String countBefore = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before selecting Availability checkbox: " + countBefore);
+
+        // Step 2: Click checkbox
+        projectSearchPage.clickAvailabilityUnitCheckbox();
+        projectSearchPage.waitFor(2000);
+
+        // Step 3: Get count after selecting
+        String countAfterSelect = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after selecting Availability checkbox: " + countAfterSelect);
+
+        // Step 4: Assert and log
+        Assert.assertNotEquals(countAfterSelect, countBefore, 
+            "❌ Project count did not update after selecting Availability checkbox.");
+        extentTest.pass("✅ Project count updated after selecting Availability checkbox.");
+
+        // Step 5: Uncheck checkbox
+        projectSearchPage.clickAvailabilityUnitCheckbox();
+        projectSearchPage.waitFor(2000);
+
+        // Step 6: Get count after deselecting
+        String countAfterDeselect = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after deselecting Availability checkbox: " + countAfterDeselect);
+
+        // Step 7: Optionally verify it changes again
+        Assert.assertNotEquals(countAfterDeselect, countAfterSelect, 
+            "❌ Project count did not update after deselecting Availability checkbox.");
+        extentTest.pass("✅ Project count updated after deselecting Availability checkbox.");
+    }
+    
+    @Test(priority = 34, description = "Verifies that Inputting Min/,max Price Per Ft Range updates the project count")
+    public void test34_PricePerFtRange() {
+        String before = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before setting price per ft range: " + before);
+
+        projectSearchPage.setPricePerFtRange("2", "2000");
+        projectSearchPage.waitFor(2000);
+
+        String after = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after setting price per ft range: " + after);
+
+        Assert.assertNotEquals(after, before, "❌ The project count did not change after setting min/max price per ft range.");
+        extentTest.pass("✅ The project count updated after setting min/max price per ft range");
+    }
+    
+    @Test(priority = 35, description = "Verifies that Inputting Min/,max Down Payment Range updates the project count")
+    public void test35_DownPaymentRange() {
+        String before = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before setting Downpayment range: " + before);
+
+        projectSearchPage.setDownpaymentRange("2", "40000000");
+        projectSearchPage.waitFor(2000);
+
+        String after = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after setting Downpayment range: " + after);
+
+        Assert.assertNotEquals(after, before, "❌ The project count did not change after setting min/max Downpayment range.");
+        extentTest.pass("✅ The project count updated after setting min/max Downpayment range");
+    }
+    
+    @Test(priority = 36, description = "Verifies that Inputting Min/,max Internal Area Range updates the project count")
+    public void test36_InternalAreaRange() {
+        String before = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before setting Internal Area range: " + before);
+
+        projectSearchPage.setInternalAreaRange("2", "900");
+        projectSearchPage.waitFor(2000);
+
+        String after = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after setting Internal Area range: " + after);
+
+        Assert.assertNotEquals(after, before, "❌ The project count did not change after setting min/max Internal Area range.");
+        extentTest.pass("✅ The project count updated after setting min/max Internal Area range");
+    }
+    
+    @Test(priority = 37, description = "Verifies that Inputting Min/,max External Area Range updates the project count")
+    public void test37_ExternalAreaRange() {
+        String before = projectSearchPage.getProjectCount();
+        extentTest.info("Project count before setting External Area range: " + before);
+
+        projectSearchPage.setExternalAreaRange("2", "900");
+        projectSearchPage.waitFor(2000);
+
+        String after = projectSearchPage.getProjectCount();
+        extentTest.info("Project count after setting External Area range: " + after);
+
+        Assert.assertNotEquals(after, before, "❌ The project count did not change after setting min/max External Area range.");
+        extentTest.pass("✅ The project count updated after setting min/max External Area range");
+    }
+    
     // user should click on the Reset Filter Text and verify Project count updated.
     @Test(priority = 32, description = "Verifies that clicking the 'Reset Filters' button clears all filters and updates the project count.")
     public void test32_ClickResetFilter() {
@@ -1379,6 +1490,9 @@ public class ProjectSearchTest extends BaseTest {
         sortOptions.put("Earliest Completion", projectSearchPage.getSortByEarliestCompletion());
         sortOptions.put("Latest Completion", projectSearchPage.getSortByLatestCompletion());
         sortOptions.put("Recently Added", projectSearchPage.getSortByRecentlyAdded());
+        sortOptions.put("Highest Availability", projectSearchPage.getsortByHighestAvailability());
+        sortOptions.put("Highest Price", projectSearchPage.getsortByHighestPrice());
+        sortOptions.put("Lowest Price", projectSearchPage.getsortByLowestPrice());
 
         List<String> previousList = projectSearchPage.getProjectNames();
         boolean allOptionsSorted = true;

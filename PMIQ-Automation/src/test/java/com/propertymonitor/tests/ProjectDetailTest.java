@@ -14,7 +14,7 @@ public class ProjectDetailTest extends BaseTest {
     private ProjectDetailPage projectDetailPage;
     private static final String PAGE_NAME = "Project Detail Page";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupProjectDetail() {
         driver.get(baseUrl + "projects/project-search");
         projectDetailPage = new ProjectDetailPage(driver, wait);
